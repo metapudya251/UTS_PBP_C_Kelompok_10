@@ -1,18 +1,15 @@
 package com.example.uts_pbp;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.uts_pbp.Preferences.UserPreferences;
 
@@ -35,7 +32,10 @@ public class SplashScreen extends AppCompatActivity {
         imgLogo = (ImageView) findViewById(R.id.splash_logo);
         textView = (TextView) findViewById(R.id.textView);
 
-        checkLogin();
+        //fungsi checkLogin(); bikin saat aplikasi sudah login,
+        //maka saat buka langsung muncul tampilan home, namun 5 detik kemudian muncul activity home lagi
+        //jadi acitivty home ada 2, tutup aplikasi dari home harus 2 kali
+        //checkLogin();
 
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade_out);
         imgLogo.startAnimation(animation);
@@ -52,7 +52,7 @@ public class SplashScreen extends AppCompatActivity {
     }
     private void checkLogin() {
         if (userPreferences.checkLogin()) {
-            startActivity(new Intent(SplashScreen.this, homeActivity.class));
+            startActivity(new Intent(SplashScreen.this, HomeActivity.class));
             finish();
         }
     }

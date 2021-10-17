@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UTS_PBP">
         <activity
-            android:name=".homeActivity"
+            android:name=".FragmentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".HomeActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

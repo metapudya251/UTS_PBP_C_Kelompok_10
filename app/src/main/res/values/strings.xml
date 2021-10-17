@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">UTS_PBP</string>
     <string name="goontingku">Goontingku</string>
+
+<!-- menu -->
+    <string name="menu_user">User</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_produk">Produk</string>
+    <string name="menu_pendaftaran">Pendaftaran</string>
+    <string name="menu_jadwal">Jadwal</string>
+    <string name="menu_about_us">About Us</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_logout">Logout</string>
+
+<!-- exit alert -->
+    <string name="exit_confirm">Apakah anda yakin?</string>
+    <string name="yes">Yes</string>
 </resources>

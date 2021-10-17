@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    //home,produk,pendaftaran,jadwal,about us, settings, logout-->
+    <item android:id="@+id/menu_home"
+        android:title="Home"/>
+
+    <item android:id="@+id/menu_produk"
+        android:title="Produk"/>
+
+    <item android:id="@+id/menu_pendaftaraan"
+        android:title="Pendaftaraan"/>
+
+    <item android:id="@+id/menu_jadwal"
+        android:title="Jadwal"/>
+
+    <item android:id="@+id/menu_about_us"
+        android:title="About Us"/>
+
+    <item android:id="@+id/menu_settings"
+        android:title="Settings"/>
+
+    <item android:id="@+id/menu_logout"
+        android:title="Logout"/>
+</menu>

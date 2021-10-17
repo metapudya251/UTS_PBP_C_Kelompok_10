@@ -13,7 +13,7 @@ import com.example.uts_pbp.User.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
-public class homeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     private ImageView user,produk,regis,jadwal,about, data, set;
     private MaterialTextView tvName;
@@ -21,11 +21,14 @@ public class homeActivity extends AppCompatActivity {
     private MaterialButton btnLogout;
     private UserPreferences userPreferences;
 
+    private String menu; //variable yang dilemparkan ke fragment untuk tampilan awal fragment
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userPreferences = new UserPreferences(homeActivity.this);
+        userPreferences = new UserPreferences(HomeActivity.this);
+        checkLogin();
 
         setContentView(R.layout.activity_home);
         setTitle("Home");
@@ -49,7 +52,7 @@ public class homeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 userPreferences.logout();
-                Toast.makeText(homeActivity.this, "Selamat Tinggal", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "Selamat Tinggal", Toast.LENGTH_SHORT).show();
                 checkLogin();
             }
         });
@@ -58,6 +61,8 @@ public class homeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //
+                menu = getString(R.string.menu_user);
+                changeActivity();
             }
         });
 
@@ -65,24 +70,32 @@ public class homeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //
+                menu = getString(R.string.menu_produk);
+                changeActivity();
             }
         });
         regis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //
+                menu = getString(R.string.menu_pendaftaran);
+                changeActivity();
             }
         });
         jadwal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //
+                menu = getString(R.string.menu_jadwal);
+                changeActivity();
             }
         });
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //
+                menu = getString(R.string.menu_about_us);
+                changeActivity();
             }
         });
         data.setOnClickListener(new View.OnClickListener() {
@@ -95,13 +108,21 @@ public class homeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //
+                menu = getString(R.string.menu_settings);
+                changeActivity();
             }
         });
     }
     private void checkLogin(){
         if(!userPreferences.checkLogin()){
-            startActivity(new Intent(homeActivity.this, MainActivity.class));
+            startActivity(new Intent(HomeActivity.this, MainActivity.class));
             finish();
         }
+    }
+
+    private void changeActivity () {
+        Intent i = new Intent(HomeActivity.this,FragmentActivity.class);
+        i.putExtra("menu",menu);
+        startActivity(i);
     }
 }
