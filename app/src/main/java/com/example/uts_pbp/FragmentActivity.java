@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -26,7 +27,6 @@ public class FragmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
-
         //ambil menu dari intent
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -39,23 +39,8 @@ public class FragmentActivity extends AppCompatActivity {
             menu = savedInstanceState.getString("menu");
         }
 
-        setTitle(menu);
-
-        if (menu == getString(R.string.menu_user)) {
-            changeFragment(new FragmentUser());
-        } else if (menu == getString(R.string.menu_produk)) {
-            changeFragment(new FragmentProduk());
-        } else if (menu == getString(R.string.menu_pendaftaran)) {
-            changeFragment(new FragmentPendaftaran());
-        } else if (menu == getString(R.string.menu_jadwal)) {
-            changeFragment(new FragmentJadwal());
-        } else if (menu == getString(R.string.menu_about_us)) {
-            changeFragment(new FragmentAboutUs());
-        } else if (menu == getString(R.string.menu_settings)) {
-            changeFragment(new FragmentSettings());
-        } else {
-
-        }
+        Toast.makeText(this, "TEST", Toast.LENGTH_LONG);
+        changeMenu();
     }
 
     @Override
@@ -69,29 +54,29 @@ public class FragmentActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_home) {
-            Intent i = new Intent(FragmentActivity.this, HomeActivity.class);
-            startActivity(i);
+            finishAndRemoveTask();
         } else if (item.getItemId() == R.id.menu_produk) {
-            setTitle(getString(R.string.menu_produk));
-            changeFragment (new Fragment());
+            menu = getString(R.string.menu_produk);
+            changeMenu();
         } else if (item.getItemId() == R.id.menu_pendaftaraan) {
-            setTitle(getString(R.string.menu_pendaftaran));
-            changeFragment (new Fragment());
+            menu = getString(R.string.menu_pendaftaran);
+            changeMenu();
         } else if (item.getItemId() == R.id.menu_jadwal) {
-            setTitle(getString(R.string.menu_jadwal));
-            changeFragment (new Fragment());
+            menu = getString(R.string.menu_jadwal);
+            changeMenu();
         } else if (item.getItemId() == R.id.menu_about_us) {
-            setTitle(getString(R.string.menu_about_us));
-            changeFragment (new Fragment());
+            menu = getString(R.string.menu_about_us);
+            changeMenu();
         } else if (item.getItemId() == R.id.menu_settings) {
-            setTitle(getString(R.string.menu_settings));
-            changeFragment (new Fragment());
+            menu = getString(R.string.menu_settings);
+            changeMenu();
         } else {
             // Jika menu yang dipilih adalah menu Exit, maka tampilkan sebuah dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.exit_confirm).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    //ini salah
                     finishAndRemoveTask();
                 }
             }).show();
@@ -104,5 +89,25 @@ public class FragmentActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.layout_fragment,fragment)
                 .commit();
+    }
+
+    public void changeMenu () {
+        setTitle(menu);
+
+        if (menu.equals(getString(R.string.menu_user))) {
+            changeFragment(new FragmentUser());
+        } else if (menu.equals(getString(R.string.menu_produk))) {
+            changeFragment(new FragmentProduk());
+        } else if (menu.equals(getString(R.string.menu_pendaftaran))) {
+            changeFragment(new FragmentPendaftaran());
+        } else if (menu.equals(getString(R.string.menu_jadwal))) {
+            changeFragment(new FragmentJadwal());
+        } else if (menu.equals(getString(R.string.menu_about_us))) {
+            changeFragment(new FragmentAboutUs());
+        } else if (menu.equals(getString(R.string.menu_settings))) {
+            changeFragment(new FragmentSettings());
+        } else {
+            //kosong?
+        }
     }
 }
