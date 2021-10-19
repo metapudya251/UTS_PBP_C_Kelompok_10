@@ -1,4 +1,4 @@
-package com.example.uts_pbp.RecyclerViews;
+package com.example.uts_pbp.recyclerViews;
 
 import android.view.View;
 import android.view.ViewGroup;

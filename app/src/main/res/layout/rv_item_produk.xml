@@ -1,52 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="20dp">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/group"
-        android:layout_width="400px"
+    <data>
+        <variable
+            name="prdk"
+            type="com.example.uts_pbp.entity.Produk" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="#B5B5B5"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-            android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/group"
+            android:layout_width="400px"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#B5B5B5"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
 
-                android:orientation="vertical"
-                android:paddingTop="20dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp">
-
-                <ImageView
-                    android:id="@+id/image_produk"
-                    android:layout_width="300px"
-                    android:layout_height="300px"
-                    android:src="@drawable/default_barber_profile"/>
-
-            </LinearLayout>
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="100px"
-                app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="#4C4C4C" >
-                <TextView
-                    android:id="@+id/tv_namaProduk"
+                android:orientation="vertical">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Nama Produk"/>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-</LinearLayout >
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical"
+                    android:paddingTop="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp">
+
+                    <ImageView
+                        android:id="@+id/image_produk"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:loadImg="@{prdk.imgUrl}"/>
+
+                </LinearLayout>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="100px"
+                    app:cardCornerRadius="10dp"
+                    app:cardBackgroundColor="#4C4C4C" >
+                    <TextView
+                        android:id="@+id/tv_namaProduk"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@{prdk.nama}"/>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</layout >

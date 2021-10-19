@@ -1,7 +1,6 @@
 package com.example.uts_pbp;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,12 +12,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.uts_pbp.Fragments.FragmentAboutUs;
-import com.example.uts_pbp.Fragments.FragmentJadwal;
-import com.example.uts_pbp.Fragments.FragmentPendaftaran;
-import com.example.uts_pbp.Fragments.FragmentProduk;
-import com.example.uts_pbp.Fragments.FragmentSettings;
-import com.example.uts_pbp.Fragments.FragmentUser;
+import com.example.uts_pbp.fragments.FragmentAboutUs;
+import com.example.uts_pbp.fragments.FragmentJadwal;
+import com.example.uts_pbp.fragments.FragmentPendaftaran;
+import com.example.uts_pbp.fragments.FragmentProduk;
+import com.example.uts_pbp.fragments.FragmentSettings;
+import com.example.uts_pbp.fragments.FragmentUser;
 
 public class FragmentActivity extends AppCompatActivity {
     private String menu;
@@ -39,7 +38,6 @@ public class FragmentActivity extends AppCompatActivity {
             menu = savedInstanceState.getString("menu");
         }
 
-        Toast.makeText(this, "TEST", Toast.LENGTH_LONG);
         changeMenu();
     }
 

@@ -1,4 +1,4 @@
-package com.example.uts_pbp.Fragments;
+package com.example.uts_pbp.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uts_pbp.R;
-import com.example.uts_pbp.RecyclerViews.RVJadwalAdapter;
+import com.example.uts_pbp.recyclerViews.RVJadwalAdapter;
 
 public class FragmentJadwal extends Fragment {
 

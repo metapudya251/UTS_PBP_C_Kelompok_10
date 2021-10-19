@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragments.FragmentJadwal"
-    android:gravity="center"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="produkadapter"
+            type="com.example.uts_pbp.recyclerViews.RVProdukAdapter" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,9 +16,10 @@
         <!-- TODO: Update blank fragment layout -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_produk"
+            android:adapter="@{produkadapter}"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             tools:listitem="@layout/rv_item_produk"/>
     </LinearLayout>
 
-</RelativeLayout>
+</layout>
