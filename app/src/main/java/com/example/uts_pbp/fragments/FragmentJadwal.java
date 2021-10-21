@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.R;
 import com.example.uts_pbp.databinding.FragmentJadwalBinding;
 import com.example.uts_pbp.entity.Jadwal;
@@ -22,8 +23,10 @@ import java.util.List;
 
 public class FragmentJadwal extends Fragment {
     private FragmentJadwalBinding binding;
-
     private RVJadwalAdapter jadwalAdapter;
+
+    private View parentView;
+    private PreferencesSettings settings;
 
     public FragmentJadwal() {
         // Required empty public constructor
@@ -41,6 +44,13 @@ public class FragmentJadwal extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //cek update Tema
+        settings = new PreferencesSettings(getActivity());
+        parentView = view.findViewById(R.id.viewJadwal);
+        if(settings.getCustomTheme().equals("darkTheme")){
+            parentView.setBackgroundColor(getResources().getColor(R.color.black));
+        }
 
         // Set Layout Manager dari recycler view
         binding.rvJadwal.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));

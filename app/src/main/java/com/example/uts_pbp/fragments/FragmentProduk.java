@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uts_pbp.Dummy.DaftarProduk;
+import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.entity.Produk;
 import com.example.uts_pbp.R;
 import com.example.uts_pbp.recyclerViews.RVProdukAdapter;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 public class FragmentProduk extends Fragment {
     private ArrayList<Produk> listProduk;
     private FragmentProdukBinding binding;
+    private View parentView;
+    private PreferencesSettings settings;
 
     public FragmentProduk() {
         // Required empty public constructor
@@ -42,6 +45,13 @@ public class FragmentProduk extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         listProduk = new DaftarProduk().listProduk;
+
+        settings = new PreferencesSettings(getActivity());
+        parentView = view.findViewById(R.id.viewProduk);
+        //cek update tema
+        if(settings.getCustomTheme().equals("darkTheme")){
+            parentView.setBackgroundColor(getResources().getColor(R.color.black));
+        }
 
         binding.rvProduk.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 inputUsername.getEditText().setText("");
-                inputUsername.getEditText().setText("");
+                inputPassword.getEditText().setText("");
             }
         });
 

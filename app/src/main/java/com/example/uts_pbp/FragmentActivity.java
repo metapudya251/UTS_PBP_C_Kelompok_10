@@ -1,6 +1,7 @@
 package com.example.uts_pbp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.uts_pbp.Preferences.UserPreferences;
 import com.example.uts_pbp.fragments.FragmentAboutUs;
 import com.example.uts_pbp.fragments.FragmentJadwal;
 import com.example.uts_pbp.fragments.FragmentPendaftaran;
@@ -21,10 +23,14 @@ import com.example.uts_pbp.fragments.FragmentUser;
 
 public class FragmentActivity extends AppCompatActivity {
     private String menu;
+    private UserPreferences userPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userPreferences = new UserPreferences(FragmentActivity.this);
+
         setContentView(R.layout.activity_fragment);
         //ambil menu dari intent
         if (savedInstanceState == null) {
@@ -52,7 +58,8 @@ public class FragmentActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_home) {
-            finishAndRemoveTask();
+//            finishAndRemoveTask();
+            startActivity(new Intent(FragmentActivity.this, HomeActivity.class));
         } else if (item.getItemId() == R.id.menu_produk) {
             menu = getString(R.string.menu_produk);
             changeMenu();
@@ -74,8 +81,8 @@ public class FragmentActivity extends AppCompatActivity {
             builder.setMessage(R.string.exit_confirm).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    //ini salah
-                    finishAndRemoveTask();
+                    userPreferences.logout();
+                    checkLogin();
                 }
             }).show();
         }
@@ -106,6 +113,13 @@ public class FragmentActivity extends AppCompatActivity {
             changeFragment(new FragmentSettings());
         } else {
             //kosong?
+        }
+    }
+
+    private void checkLogin(){
+        if(!userPreferences.checkLogin()){
+            startActivity(new Intent(FragmentActivity.this, MainActivity.class));
+            finish();
         }
     }
 }

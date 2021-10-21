@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.R;
+import com.google.android.material.textview.MaterialTextView;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
@@ -22,6 +24,9 @@ import com.mapbox.mapboxsdk.maps.Style;
 public class FragmentAboutUs extends Fragment implements OnMapReadyCallback {
     private MapboxMap mapboxMap;
     private MapView mapView;
+    private MaterialTextView tvAbout, tvAbout2,tvFind, tvFind2;
+    private View parentView;
+    private PreferencesSettings settings;
 
     public FragmentAboutUs() {
         // Required empty public constructor
@@ -39,6 +44,22 @@ public class FragmentAboutUs extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        settings = new PreferencesSettings(getActivity());
+
+        tvAbout = view.findViewById(R.id.tv_about);
+        tvAbout2 = view.findViewById(R.id.tv_about2);
+        tvFind = view.findViewById(R.id.tv_find);
+        tvFind2 = view.findViewById(R.id.tv_find2);
+        parentView = view.findViewById(R.id.viewAbout);
+
+        //cek update tema
+        if(settings.getCustomTheme().equals("darkTheme")){
+            tvAbout.setTextColor(getResources().getColor(R.color.white));
+            tvAbout2.setTextColor(getResources().getColor(R.color.white));
+            tvFind.setTextColor(getResources().getColor(R.color.white));
+            tvFind2.setTextColor(getResources().getColor(R.color.white));
+            parentView.setBackgroundColor(getResources().getColor(R.color.black));
+        }
 
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);

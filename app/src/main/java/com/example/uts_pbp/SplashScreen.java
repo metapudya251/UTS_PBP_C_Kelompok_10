@@ -32,28 +32,25 @@ public class SplashScreen extends AppCompatActivity {
         imgLogo = (ImageView) findViewById(R.id.splash_logo);
         textView = (TextView) findViewById(R.id.textView);
 
-        //fungsi checkLogin(); bikin saat aplikasi sudah login,
-        //maka saat buka langsung muncul tampilan home, namun 5 detik kemudian muncul activity home lagi
-        //jadi acitivty home ada 2, tutup aplikasi dari home harus 2 kali
-        //checkLogin();
-
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade_out);
         imgLogo.startAnimation(animation);
         textView.startAnimation(animation);
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-            }
-        }, 5000L); //5000 L = 5 detik
+        checkLogin();
     }
     private void checkLogin() {
         if (userPreferences.checkLogin()) {
             startActivity(new Intent(SplashScreen.this, HomeActivity.class));
             finish();
+        }else{
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                }
+            }, 5000L); //5000 L = 5 detik
         }
     }
 }

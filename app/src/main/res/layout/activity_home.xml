@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
@@ -34,7 +35,6 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="50dp"
             android:text="Selamat Datang,"
-            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -43,8 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-
-            android:textColor="@color/black"
+            android:text="Nama"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -100,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="63dp"
             android:text="Produk"
-            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -111,7 +109,6 @@
             android:layout_marginLeft="63dp"
             android:layout_marginRight="63dp"
             android:text="Pendaftaran"
-            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -120,7 +117,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Jadwal"
-            android:textColor="@color/black"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -142,18 +138,18 @@
             app:srcCompat="@drawable/group_20" />
 
         <ImageView
-            android:id="@+id/imageView8"
+            android:id="@+id/imageView9"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
-            app:srcCompat="@drawable/group_21" />
+            app:srcCompat="@drawable/group_28" />
 
         <ImageView
-            android:id="@+id/imageView9"
+            android:id="@+id/imageView8"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            app:srcCompat="@drawable/group_28" />
+            app:srcCompat="@drawable/group_29" />
     </LinearLayout>
 
     <LinearLayout
@@ -174,18 +170,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="63dp"
             android:text="About Us"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_data"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="53dp"
-            android:layout_marginRight="53dp"
-            android:text="Data Booking"
-            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -193,21 +177,17 @@
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="67dp"
+            android:layout_marginRight="71dp"
             android:text="Settings"
-            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_logout"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
             android:textStyle="bold" />
     </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogout"
-        android:layout_width="136dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="44dp"
-        android:layout_weight="1"
-        android:text="Logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

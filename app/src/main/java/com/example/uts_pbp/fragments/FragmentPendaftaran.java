@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.uts_pbp.Dummy.DaftarPetugas;
 import com.example.uts_pbp.Dummy.DaftarProduk;
 import com.example.uts_pbp.FragmentActivity;
+import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.R;
 import com.example.uts_pbp.databinding.FragmentPendaftaranBinding;
 import com.example.uts_pbp.entity.Jadwal;
@@ -39,6 +40,9 @@ public class FragmentPendaftaran extends Fragment {
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormatter;
 
+    private PreferencesSettings settings;
+    private View parentView;
+
     public FragmentPendaftaran() {
         // Required empty public constructor
     }
@@ -56,6 +60,8 @@ public class FragmentPendaftaran extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        settings = new PreferencesSettings(getActivity());
+
         //INISIALISASI OBJEK DAN VARIABEL
         jdwl = new Jadwal();
         binding.setDftr(jdwl);
@@ -63,7 +69,13 @@ public class FragmentPendaftaran extends Fragment {
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-        //ku enggak paham gimana cara kerjanya tapi ini bekerja
+        //cek update tema --> Maaf aku buat hitam backgroundnya aja, cardviewnya engga :)
+        parentView = view.findViewById(R.id.viewPendaftaran);
+        if(settings.getCustomTheme().equals("darkTheme")){
+            parentView.setBackgroundColor(getResources().getColor(R.color.black));
+        }
+
+        //ku enggak paham gimana cara kerjanya tapi ini bekerja -- WKWKWKK gpp seadanya dulu
         //dropdown menu
         //Produk
         int i;
