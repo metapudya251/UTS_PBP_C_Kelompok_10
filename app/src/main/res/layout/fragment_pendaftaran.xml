@@ -8,7 +8,7 @@
                 type="com.example.uts_pbp.fragments.FragmentPendaftaran"/>
             <variable
                 name="dftr"
-                type="com.example.uts_pbp.entity.Pendaftaraan" />
+                type="com.example.uts_pbp.entity.Jadwal" />
         </data>
 
     <RelativeLayout
@@ -57,7 +57,8 @@
                             android:inputType="text"
 
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="@{dftr.nama}"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -73,7 +74,8 @@
                             android:inputType="number"
 
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="@{dftr.telp}"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -89,10 +91,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
+                            android:onClick="@{activity.btnProduk}"
+                            android:text="@{dftr.pelayanan}"/>
 
-
-                            />
-<!--                        android:onClick="@{activity.btnProduk}"-->
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -108,9 +109,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
-                            android:text="nama_pencukur"
+                            android:onClick="@{activity.btnNamaPencukur}"
+                            android:text="@{dftr.petugas}"
                             />
-<!--                        android:onClick="@{activity.btnNamaPencukur}"-->
+
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,8 +128,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
-                            android:text="tanggal"
-                        android:onClick="@{activity.btnTanggal}"/>
+                            android:onClick="@{activity.btnTanggal}"
+                            android:text="@={dftr.tanggal}"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <RelativeLayout

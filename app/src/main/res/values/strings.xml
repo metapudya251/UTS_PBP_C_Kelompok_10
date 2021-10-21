@@ -19,5 +19,10 @@
 <!-- geolocation -->
     <string name="mapbox_access_token">pk.eyJ1IjoidW50dWtrdWxpYWgiLCJhIjoiY2t1bzRsOGx5MGVmYjJzcGYzM2tiOHN0MSJ9.H8C0Vq7cVGp6GNpx_wRwVQ</string>
     <string name="user_location_permission_explanation">Apakah diperbolehkan?</string>
-    <string name="user_location_not_granted">Ditolah Kalian semua</string>
+
+<!-- About Us xml -->
+    <string name="about_us">ABOUT US</string>
+    <string name="about">"Goontingku telah didirikan sejak tahun 2019 "</string>
+    <string name="find_us">FIND US</string>
+    <string name="find">Jl. Babarsari, Caturtunggal, Kec. Depok, Kab.Sleman, Daerah Istimewa Yogyakarta</string>
 </resources>

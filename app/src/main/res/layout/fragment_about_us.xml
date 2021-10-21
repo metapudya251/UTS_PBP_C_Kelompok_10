@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="string/about_us"
+            android:text="@string/about_us"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:textSize="8pt"
             android:textAlignment="center"
-            android:text="string/about"
+            android:text="@string/about"
             android:textColor="@color/black" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="string/find_us"
+            android:text="@string/find_us"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:textSize="8pt"
             android:textAlignment="center"
-            android:text="string/find"
+            android:text="@string/find"
             android:textColor="@color/black" />
 
         <com.mapbox.mapboxsdk.maps.MapView

@@ -4,10 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/activity_fragment.xml" value="0.11614583333333334" />
-        <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/activity_home.xml" value="0.11614583333333334" />
+        <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/activity_home.xml" value="0.2" />
         <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/activity_main.xml" value="0.11614583333333334" />
         <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/activity_splash_screen.xml" value="0.11614583333333334" />
-        <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_about_us.xml" value="0.11614583333333334" />
+        <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_about_us.xml" value="0.2" />
         <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_jadwal.xml" value="0.22554347826086957" />
         <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_pendaftaran.xml" value="0.2" />
         <entry key="..\:/College/UTS PBP/Geser/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_produk.xml" value="0.22554347826086957" />
@@ -20,13 +20,14 @@
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/activity_splash_screen.xml" value="0.13020833333333334" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_about_us.xml" value="0.1" />
-        <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_jadwal.xml" value="0.25416666666666665" />
+        <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_jadwal.xml" value="0.1" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_pendaftaran.xml" value="0.1" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_produk.xml" value="0.1" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/fragment_user.xml" value="0.25416666666666665" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/recycleview_jadwal_adapter.xml" value="0.25416666666666665" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/recycleview_produk_adapter.xml" value="0.25416666666666665" />
+        <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/rv_item_jadwal.xml" value="0.1" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/rv_item_produk.xml" value="0.1" />
         <entry key="..\:/College/UTS PBP/UTS_PBP_C_Kelompok_10/app/src/main/res/menu/fragment_menu.xml" value="0.13072916666666667" />
         <entry key="..\:/College/UTS_PBP_C_Kelompok_10/app/src/main/res/layout/activity_fragment.xml" value="0.25416666666666665" />

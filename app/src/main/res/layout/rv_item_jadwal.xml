@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="20dp">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="jdwl"
+            type="com.example.uts_pbp.entity.Jadwal" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/group"
@@ -25,7 +33,7 @@
                 android:id="@+id/image_tukangCukur"
                 android:layout_width="300px"
                 android:layout_height="300px"
-                android:src="@drawable/default_barber_profile"/>
+                app:loadImg="@{jdwl.imgUrl}"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,22 +46,23 @@
                     android:id="@+id/tv_tanggal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tanggal"
+                    android:text="@{jdwl.tanggal}"
                     style="@style/TextAppearance.MaterialComponents.Headline4"/>
 
                 <TextView
-                    android:id="@+id/tv_jam"
+                    android:id="@+id/tv_pelayanan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jam" />
+                    android:text="@{jdwl.pelayanan}" />
 
                 <TextView
-                    android:id="@+id/tv_tukangCukur"
+                    android:id="@+id/tv_petugas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tukang Cukur"
+                    android:text="@{jdwl.petugas}"
                     style="@style/TextAppearance.MaterialComponents.Headline6"/>
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-</LinearLayout>
+    </LinearLayout>
+</layout>

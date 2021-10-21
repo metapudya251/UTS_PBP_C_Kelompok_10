@@ -43,9 +43,6 @@ public class FragmentProduk extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         listProduk = new DaftarProduk().listProduk;
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        binding.rvProduk.setLayoutManager(layoutManager);
-
         binding.rvProduk.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         RVProdukAdapter myRecyclerViewAdapter = new RVProdukAdapter(listProduk,getActivity());

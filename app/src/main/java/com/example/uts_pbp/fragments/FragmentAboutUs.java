@@ -19,7 +19,7 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 
-public class FragmentAboutUs extends Fragment implements OnMapReadyCallback{
+public class FragmentAboutUs extends Fragment implements OnMapReadyCallback {
     private MapboxMap mapboxMap;
     private MapView mapView;
 
