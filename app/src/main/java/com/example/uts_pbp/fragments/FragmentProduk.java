@@ -1,5 +1,8 @@
 package com.example.uts_pbp.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -46,16 +50,38 @@ public class FragmentProduk extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         listProduk = new DaftarProduk().listProduk;
 
-        settings = new PreferencesSettings(getActivity());
+        settings = (PreferencesSettings) getActivity().getApplication();
+
         parentView = view.findViewById(R.id.viewProduk);
+
         //cek update tema
-        if(settings.getCustomTheme().equals("darkTheme")){
-            parentView.setBackgroundColor(getResources().getColor(R.color.black));
-        }
+        loadSharedPreferences();
 
         binding.rvProduk.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         RVProdukAdapter myRecyclerViewAdapter = new RVProdukAdapter(listProduk,getActivity());
         binding.setProdukadapter(myRecyclerViewAdapter);
+    }
+
+    //LOAD PREFERENCENYA INI BUAT NGECEK TAMPILAN AWAL
+    private void loadSharedPreferences()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String theme = sharedPreferences.getString(PreferencesSettings.CUSTOM_THEME, PreferencesSettings.LIGHT_THEME);
+        settings.setCustomTheme(theme);
+        updateView();
+    }
+    private void updateView() {
+        final int black = ContextCompat.getColor(this.getActivity(), R.color.black);
+        final int white = ContextCompat.getColor(this.getActivity(), R.color.white);
+
+        if(settings.getCustomTheme().equals(PreferencesSettings.DARK_THEME))
+        {
+            parentView.setBackgroundColor(black);
+        }
+        else
+        {
+            parentView.setBackgroundColor(white);
+        }
     }
 }

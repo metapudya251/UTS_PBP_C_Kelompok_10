@@ -1,5 +1,8 @@
 package com.example.uts_pbp.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,12 +49,11 @@ public class FragmentJadwal extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //cek update Tema
-        settings = new PreferencesSettings(getActivity());
+        settings = (PreferencesSettings) getActivity().getApplication();
+
         parentView = view.findViewById(R.id.viewJadwal);
-        if(settings.getCustomTheme().equals("darkTheme")){
-            parentView.setBackgroundColor(getResources().getColor(R.color.black));
-        }
+        //cek update Tema
+        loadSharedPreferences();
 
         // Set Layout Manager dari recycler view
         binding.rvJadwal.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
@@ -81,5 +84,27 @@ public class FragmentJadwal extends Fragment {
 
         GetJadwals getJadwals = new GetJadwals();
         getJadwals.execute();
+    }
+
+    //LOAD PREFERENCENYA INI BUAT NGECEK TAMPILAN AWAL
+    private void loadSharedPreferences()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String theme = sharedPreferences.getString(PreferencesSettings.CUSTOM_THEME, PreferencesSettings.LIGHT_THEME);
+        settings.setCustomTheme(theme);
+        updateView();
+    }
+    private void updateView() {
+        final int black = ContextCompat.getColor(this.getActivity(), R.color.black);
+        final int white = ContextCompat.getColor(this.getActivity(), R.color.white);
+
+        if(settings.getCustomTheme().equals(PreferencesSettings.DARK_THEME))
+        {
+            parentView.setBackgroundColor(black);
+        }
+        else
+        {
+            parentView.setBackgroundColor(white);
+        }
     }
 }

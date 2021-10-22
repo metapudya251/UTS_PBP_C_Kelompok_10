@@ -1,5 +1,8 @@
 package com.example.uts_pbp.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.uts_pbp.Preferences.PreferencesSettings;
@@ -44,7 +48,7 @@ public class FragmentAboutUs extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = new PreferencesSettings(getActivity());
+        settings = (PreferencesSettings) getActivity().getApplication();
 
         tvAbout = view.findViewById(R.id.tv_about);
         tvAbout2 = view.findViewById(R.id.tv_about2);
@@ -53,19 +57,42 @@ public class FragmentAboutUs extends Fragment implements OnMapReadyCallback {
         parentView = view.findViewById(R.id.viewAbout);
 
         //cek update tema
-        if(settings.getCustomTheme().equals("darkTheme")){
-            tvAbout.setTextColor(getResources().getColor(R.color.white));
-            tvAbout2.setTextColor(getResources().getColor(R.color.white));
-            tvFind.setTextColor(getResources().getColor(R.color.white));
-            tvFind2.setTextColor(getResources().getColor(R.color.white));
-            parentView.setBackgroundColor(getResources().getColor(R.color.black));
-        }
+        loadSharedPreferences();
 
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
     }
 
+    //LOAD PREFERENCENYA INI BUAT NGECEK TAMPILAN AWAL
+    private void loadSharedPreferences()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String theme = sharedPreferences.getString(PreferencesSettings.CUSTOM_THEME, PreferencesSettings.LIGHT_THEME);
+        settings.setCustomTheme(theme);
+        updateView();
+    }
+    private void updateView() {
+        final int black = ContextCompat.getColor(this.getActivity(), R.color.black);
+        final int white = ContextCompat.getColor(this.getActivity(), R.color.white);
+
+        if(settings.getCustomTheme().equals(PreferencesSettings.DARK_THEME))
+        {
+            tvAbout.setTextColor(white);
+            tvAbout2.setTextColor(white);
+            tvFind.setTextColor(white);
+            tvFind2.setTextColor(white);
+            parentView.setBackgroundColor(black);
+        }
+        else
+        {
+            tvAbout.setTextColor(black);
+            tvAbout2.setTextColor(black);
+            tvFind.setTextColor(black);
+            tvFind2.setTextColor(black);
+            parentView.setBackgroundColor(white);
+        }
+    }
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {

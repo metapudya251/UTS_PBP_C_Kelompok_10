@@ -1,6 +1,9 @@
 package com.example.uts_pbp.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -60,7 +64,7 @@ public class FragmentPendaftaran extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        settings = new PreferencesSettings(getActivity());
+        settings = (PreferencesSettings) getActivity().getApplication();
 
         //INISIALISASI OBJEK DAN VARIABEL
         jdwl = new Jadwal();
@@ -69,11 +73,10 @@ public class FragmentPendaftaran extends Fragment {
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
-        //cek update tema --> Maaf aku buat hitam backgroundnya aja, cardviewnya engga :)
         parentView = view.findViewById(R.id.viewPendaftaran);
-        if(settings.getCustomTheme().equals("darkTheme")){
-            parentView.setBackgroundColor(getResources().getColor(R.color.black));
-        }
+
+        //cek update tema
+        loadSharedPreferences();
 
         //ku enggak paham gimana cara kerjanya tapi ini bekerja -- WKWKWKK gpp seadanya dulu
         //dropdown menu
@@ -218,5 +221,28 @@ public class FragmentPendaftaran extends Fragment {
         }
         AddJadwal addJadwal = new AddJadwal(  );
         addJadwal.execute();
+    }
+
+    //LOAD PREFERENCENYA INI BUAT NGECEK TAMPILAN AWAL
+    private void loadSharedPreferences()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String theme = sharedPreferences.getString(PreferencesSettings.CUSTOM_THEME, PreferencesSettings.LIGHT_THEME);
+        settings.setCustomTheme(theme);
+        updateView();
+    }
+    private void updateView() {
+        final int black = ContextCompat.getColor(this.getActivity(), R.color.black);
+        final int white = ContextCompat.getColor(this.getActivity(), R.color.white);
+
+        if(settings.getCustomTheme().equals(PreferencesSettings.DARK_THEME))
+        {
+            //Maaf aku buat hitam backgroundnya aja, cardviewnya engga :)
+            parentView.setBackgroundColor(black);
+        }
+        else
+        {
+            parentView.setBackgroundColor(white);
+        }
     }
 }

@@ -1,5 +1,9 @@
 package com.example.uts_pbp.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +35,7 @@ public class FragmentSettings extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = new PreferencesSettings(this.getActivity());
+        settings = (PreferencesSettings) getActivity().getApplication();
 
         switchMaterial = view.findViewById(R.id.switchBtn);
         tvScreen = view.findViewById(R.id.tv_screen);
@@ -46,7 +50,8 @@ public class FragmentSettings extends Fragment {
             }
         });
 
-        updateView(); //Update Tema
+        //cek update tema
+        loadSharedPreferences();
         initSwitchListener();
     }
 
@@ -57,13 +62,13 @@ public class FragmentSettings extends Fragment {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
-//    private void loadSharedPreferences()
-//    {
-//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, Context.MODE_PRIVATE);
-//        String theme = sharedPreferences.getString(PreferencesSettings.CUSTOM_THEME, PreferencesSettings.LIGHT_THEME);
-//        settings.setCustomTheme(theme);
-//        updateView();
-//    }
+    private void loadSharedPreferences()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String theme = sharedPreferences.getString(PreferencesSettings.CUSTOM_THEME, PreferencesSettings.LIGHT_THEME);
+        settings.setCustomTheme(theme);
+        updateView();
+    }
 
     private void initSwitchListener()
     {
@@ -73,9 +78,13 @@ public class FragmentSettings extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked)
             {
                 if(checked)
-                    settings.setCustomTheme("darkTheme");
+                    settings.setCustomTheme(PreferencesSettings.DARK_THEME);
                 else
-                    settings.setCustomTheme("lightTheme");
+                    settings.setCustomTheme(PreferencesSettings.LIGHT_THEME);
+
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE).edit();
+                editor.putString(PreferencesSettings.CUSTOM_THEME, settings.getCustomTheme());
+                editor.apply();
                 updateView();
             }
         });
@@ -85,7 +94,7 @@ public class FragmentSettings extends Fragment {
         final int black = ContextCompat.getColor(this.getActivity(), R.color.black);
         final int white = ContextCompat.getColor(this.getActivity(), R.color.white);
 
-        if(settings.getCustomTheme().equals("darkTheme"))
+        if(settings.getCustomTheme().equals(PreferencesSettings.DARK_THEME))
         {
             tvScreen.setTextColor(white);
             tvNight.setTextColor(white);

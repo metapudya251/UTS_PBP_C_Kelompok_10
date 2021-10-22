@@ -2,10 +2,12 @@ package com.example.uts_pbp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,10 +41,11 @@ public class HomeActivity extends AppCompatActivity {
         profil = userPreferences.getUserLogin();
         binding.setUser(profil);
 
+        settings = (PreferencesSettings) getApplication();
+
         setTitle("Home");
 
         //cek user login
-        userPreferences = new UserPreferences(HomeActivity.this);
         checkLogin();
 
         parentView = findViewById(R.id.parentView2);
@@ -56,19 +59,48 @@ public class HomeActivity extends AppCompatActivity {
         tvSet = findViewById(R.id.tv_setting);
 
         //cek update tema
-        settings = new PreferencesSettings(HomeActivity.this);
-        if(!settings.checkDarkMode()){
-            tvName.setTextColor(getResources().getColor(R.color.white));
-            tvWelcome.setTextColor(getResources().getColor(R.color.white));
-            tvAbout.setTextColor(getResources().getColor(R.color.white));
-            tvjadwal.setTextColor(getResources().getColor(R.color.white));
-            tvLogout.setTextColor(getResources().getColor(R.color.white));
-            tvProduk.setTextColor(getResources().getColor(R.color.white));
-            tvRegis.setTextColor(getResources().getColor(R.color.white));
-            tvSet.setTextColor(getResources().getColor(R.color.white));
-            parentView.setBackgroundColor(getResources().getColor(R.color.black));
+        loadSharedPreferences();
+
+    }
+
+    //LOAD PREFERENCENYA INI BUAT NGECEK TAMPILAN AWAL
+    private void loadSharedPreferences()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String theme = sharedPreferences.getString(PreferencesSettings.CUSTOM_THEME, PreferencesSettings.LIGHT_THEME);
+        settings.setCustomTheme(theme);
+        updateView();
+    }
+    private void updateView() {
+        final int black = ContextCompat.getColor(this, R.color.black);
+        final int white = ContextCompat.getColor(this, R.color.white);
+
+        if(settings.getCustomTheme().equals(PreferencesSettings.DARK_THEME))
+        {
+            tvName.setTextColor(white);
+            tvWelcome.setTextColor(white);
+            tvAbout.setTextColor(white);
+            tvjadwal.setTextColor(white);
+            tvLogout.setTextColor(white);
+            tvProduk.setTextColor(white);
+            tvRegis.setTextColor(white);
+            tvSet.setTextColor(white);
+            parentView.setBackgroundColor(black);
+        }
+        else
+        {
+            tvName.setTextColor(black);
+            tvWelcome.setTextColor(black);
+            tvAbout.setTextColor(black);
+            tvjadwal.setTextColor(black);
+            tvLogout.setTextColor(black);
+            tvProduk.setTextColor(black);
+            tvRegis.setTextColor(black);
+            tvSet.setTextColor(black);
+            parentView.setBackgroundColor(white);
         }
     }
+
     public View.OnClickListener userMenu = new View.OnClickListener() {
         @Override
         public void onClick (View view) {

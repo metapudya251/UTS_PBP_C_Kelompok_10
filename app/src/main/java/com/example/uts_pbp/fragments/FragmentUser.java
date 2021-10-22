@@ -1,5 +1,8 @@
 package com.example.uts_pbp.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -9,6 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -45,7 +49,7 @@ public class FragmentUser extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = new PreferencesSettings(getActivity());
+        settings = (PreferencesSettings) getActivity().getApplication();
 
         userPreferences = new UserPreferences(this.getActivity());
         profil = userPreferences.getUserLogin();
@@ -59,12 +63,36 @@ public class FragmentUser extends Fragment {
         parentView = view.findViewById(R.id.viewUser);
 
         //cek update tema
-        if(settings.getCustomTheme().equals("darkTheme")){
-            tvUser2.setTextColor(getResources().getColor(R.color.white));
-            tvPass2.setTextColor(getResources().getColor(R.color.white));
-            tvUser.setTextColor(getResources().getColor(R.color.white));
-            tvPass.setTextColor(getResources().getColor(R.color.white));
-            parentView.setBackgroundColor(getResources().getColor(R.color.black));
+        loadSharedPreferences();
+    }
+
+    private void loadSharedPreferences()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String theme = sharedPreferences.getString(PreferencesSettings.CUSTOM_THEME, PreferencesSettings.LIGHT_THEME);
+        settings.setCustomTheme(theme);
+        updateView();
+    }
+
+    private void updateView() {
+        final int black = ContextCompat.getColor(this.getActivity(), R.color.black);
+        final int white = ContextCompat.getColor(this.getActivity(), R.color.white);
+
+        if(settings.getCustomTheme().equals(PreferencesSettings.DARK_THEME))
+        {
+            tvUser2.setTextColor(white);
+            tvPass2.setTextColor(white);
+            tvUser.setTextColor(white);
+            tvPass.setTextColor(white);
+            parentView.setBackgroundColor(black);
+        }
+        else
+        {
+            tvUser2.setTextColor(black);
+            tvPass2.setTextColor(black);
+            tvUser.setTextColor(black);
+            tvPass.setTextColor(black);
+            parentView.setBackgroundColor(white);
         }
     }
 
@@ -81,5 +109,4 @@ public class FragmentUser extends Fragment {
             }
         }
     };
-
 }
