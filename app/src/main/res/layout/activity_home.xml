@@ -1,193 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parentView2"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    android:id="@+id/parentView2">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="108dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/group_26" />
+    <data>
+        <variable
+            name="activity"
+            type="com.example.uts_pbp.HomeActivity" />
+        <variable
+            name="user"
+            type="com.example.uts_pbp.user.User" />
+    </data>
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="249dp"
-        android:layout_height="137dp"
-        android:layout_marginStart="4dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_welcome"
-            style="@style/TextAppearance.MaterialComponents.Headline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="50dp"
-            android:text="Selamat Datang,"
-            android:textStyle="bold" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_name"
-            style="@style/TextAppearance.MaterialComponents.Headline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:text="Nama"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="410dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="48dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="75dp"
+            android:id="@+id/imageView2"
+            android:layout_width="108dp"
+            android:layout_height="74dp"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.34"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/group_26"
+            android:onClick="@{activity.userMenu}"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="249dp"
+            android:layout_height="137dp"
+            android:layout_marginStart="4dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_welcome"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"
+                android:text="Selamat Datang,"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_name"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:text="@{user.username}"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="410dp"
             android:layout_height="75dp"
-            android:layout_marginStart="50dp"
-            app:srcCompat="@drawable/group_24" />
+            android:layout_marginTop="48dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            app:srcCompat="@drawable/group_23" />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="50dp"
+                app:srcCompat="@drawable/group_24"
+                android:onClick="@{activity.produkMenu}"/>
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            app:srcCompat="@drawable/group_25" />
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="45dp"
+                app:srcCompat="@drawable/group_23"
+                android:onClick="@{activity.regisMenu}"/>
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                app:srcCompat="@drawable/group_25"
+                android:onClick="@{activity.jadwalMenu}"/>
 
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="404dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+        </LinearLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_produk"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="63dp"
-            android:text="Produk"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="404dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_pendaftaran"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="63dp"
-            android:layout_marginRight="63dp"
-            android:text="Pendaftaran"
-            android:textStyle="bold" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_produk"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="63dp"
+                android:text="Produk"
+                android:textStyle="bold" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_jadwal"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jadwal"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_pendaftaran"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="63dp"
+                android:layout_marginRight="63dp"
+                android:text="Pendaftaran"
+                android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="410dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_jadwal"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jadwal"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginStart="50dp"
-            app:srcCompat="@drawable/group_20" />
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="410dp"
+            android:layout_height="78dp"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
-        <ImageView
-            android:id="@+id/imageView9"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            app:srcCompat="@drawable/group_28" />
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="50dp"
+                app:srcCompat="@drawable/group_20"
+                android:onClick="@{activity.aboutMenu}"/>
 
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            app:srcCompat="@drawable/group_29" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="45dp"
+                app:srcCompat="@drawable/group_28"
+                android:onClick="@{activity.settingMenu}"/>
 
-    <LinearLayout
-        android:id="@+id/linearLayout7"
-        android:layout_width="404dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="4dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                app:srcCompat="@drawable/group_29"
+                android:onClick="@{activity.logoutMenu}"/>
+        </LinearLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_about"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="63dp"
-            android:text="About Us"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="404dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_setting"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="67dp"
-            android:layout_marginRight="71dp"
-            android:text="Settings"
-            android:textStyle="bold" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_about"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="63dp"
+                android:text="About Us"
+                android:textStyle="bold" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_logout"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:textStyle="bold" />
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_setting"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="67dp"
+                android:layout_marginRight="71dp"
+                android:text="Settings"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_logout"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

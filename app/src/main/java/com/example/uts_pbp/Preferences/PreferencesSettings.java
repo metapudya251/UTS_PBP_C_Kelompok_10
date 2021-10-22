@@ -30,7 +30,7 @@ public class PreferencesSettings extends Application {
 
     public void setCustomTheme(String customTheme)
     {
-        editor.putBoolean("darkTheme", true);
+        editor.putBoolean(CUSTOM_THEME, true);
         editor.putString(CUSTOM_THEME, customTheme);
         editor.apply();
 

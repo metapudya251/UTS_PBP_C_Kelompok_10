@@ -9,24 +9,36 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.Preferences.UserPreferences;
 import com.example.uts_pbp.R;
-import com.example.uts_pbp.User.User;
+import com.example.uts_pbp.user.User;
+import com.example.uts_pbp.databinding.FragmentUserBinding;
 import com.google.android.material.textview.MaterialTextView;
 
 public class FragmentUser extends Fragment {
-    private MaterialTextView tvUser, tvPass,tvUser2, tvPass2;
+    private MaterialTextView tvUser,tvUser2,tvPass, tvPass2;
     private View parentView;
     private User profil;
     private UserPreferences userPreferences;
     private PreferencesSettings settings;
-    private int check = 1;
+
+    private FragmentUserBinding binding;
 
     public FragmentUser() {
         // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user, container, false);
+        View view = binding.getRoot();
+        return view;
     }
 
     @Override
@@ -36,6 +48,9 @@ public class FragmentUser extends Fragment {
         settings = new PreferencesSettings(getActivity());
 
         userPreferences = new UserPreferences(this.getActivity());
+        profil = userPreferences.getUserLogin();
+        binding.setUser(profil);
+        binding.setActivity(this);
 
         tvUser2 = view.findViewById(R.id.tv_user2);
         tvPass2 = view.findViewById(R.id.tv_pass2);
@@ -51,31 +66,20 @@ public class FragmentUser extends Fragment {
             tvPass.setTextColor(getResources().getColor(R.color.white));
             parentView.setBackgroundColor(getResources().getColor(R.color.black));
         }
+    }
 
-        profil = userPreferences.getUserLogin();
-
-        tvUser2.setText(""+profil.getUsername());
-        tvPass2.setText(""+profil.getPassword());
-
-        tvPass2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(check==1){
-                    tvPass2.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    check=-1;
-                }else{
-                    tvPass2.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    check=+1;
-                }
+    public View.OnClickListener tvPass3 = new View.OnClickListener() {
+        int check = 1;
+        @Override
+        public void onClick(View view) {
+            if(check==1){
+                tvPass2.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                check=-1;
+            }else{
+                tvPass2.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                check=+1;
             }
-        });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
-    }
+        }
+    };
 
 }

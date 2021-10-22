@@ -2,6 +2,7 @@ package com.example.uts_pbp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.uts_pbp.Preferences.UserPreferences;
+import com.example.uts_pbp.databinding.ActivityMainBinding;
+import com.example.uts_pbp.user.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -17,50 +20,50 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout inputUsername;
     private TextInputLayout inputPassword;
     private ConstraintLayout mainLayout;
-    private MaterialButton btnClear, btnLogin;
     private UserPreferences userPreferences;
+    private User profil;
 
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setActivity(this);
+
+        userPreferences = new UserPreferences(this);
+        profil = userPreferences.getUserLogin();
 
         setTitle("User Login");
-
-        userPreferences = new UserPreferences(MainActivity.this);
 
         inputUsername = findViewById(R.id.inputLayoutUsername);
         inputPassword = findViewById(R.id.inputLayoutPassword);
 
-        btnClear = findViewById(R.id.btnClear);
-        btnLogin = findViewById(R.id.btnLogin);
-
         checkLogin();
+    }
 
-        btnClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                inputUsername.getEditText().setText("");
-                inputPassword.getEditText().setText("");
-            }
-        });
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(validateForm()){
-                    if(inputUsername.getEditText().getText().toString().trim().equals("Mawar Melati")
-                            && inputPassword.getEditText().getText().toString().trim().equals("1234")){
+    public View.OnClickListener btnLogin = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(validateForm()){
+                if(inputUsername.getEditText().getText().toString().trim().equals("Mawar Melati")
+                        && inputPassword.getEditText().getText().toString().trim().equals("1234")){
                         userPreferences.setLogin(inputUsername.getEditText().getText().toString().trim(),inputPassword.getEditText().getText().toString().trim());
                         checkLogin();
-                    }else {
-                        Toast.makeText(MainActivity.this,"Username atau Password salah",Toast.LENGTH_SHORT).show();
-                    }
+                }else {
+                    Toast.makeText(MainActivity.this,"Username atau Password salah",Toast.LENGTH_SHORT).show();
                 }
             }
-        });
-    }
+        }
+    };
+
+    public View.OnClickListener btnClear = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            inputUsername.getEditText().setText("");
+            inputPassword.getEditText().setText("");
+        }
+    };
 
     private boolean validateForm(){
         if(inputUsername.getEditText().getText().toString().trim().isEmpty() || inputPassword.getEditText().getText().toString().trim().isEmpty()){

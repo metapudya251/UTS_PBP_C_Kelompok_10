@@ -1,4 +1,4 @@
-package com.example.uts_pbp.User;
+package com.example.uts_pbp.user;
 
 public class User {
     private String username,password;

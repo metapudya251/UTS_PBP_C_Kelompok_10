@@ -58,7 +58,7 @@ public class FragmentActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_home) {
-//            finishAndRemoveTask();
+            finishAndRemoveTask();
             startActivity(new Intent(FragmentActivity.this, HomeActivity.class));
         } else if (item.getItemId() == R.id.menu_produk) {
             menu = getString(R.string.menu_produk);
