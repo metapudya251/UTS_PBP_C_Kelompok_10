@@ -53,7 +53,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@{prdk.nama}"/>
+                        android:text="@{prdk.nama}"
+                        android:textStyle="bold"/>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
