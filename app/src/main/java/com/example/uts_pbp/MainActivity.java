@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -14,8 +17,10 @@ import com.example.uts_pbp.databinding.ActivityMainBinding;
 import com.example.uts_pbp.user.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String CHANNEL_1_ID = "channel1";
 
     private TextInputLayout inputUsername;
     private TextInputLayout inputPassword;
@@ -28,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("sample_notification");
+        createNotificationChannel();
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setActivity(this);
 
@@ -78,6 +87,20 @@ public class MainActivity extends AppCompatActivity {
         if(userPreferences.checkLogin()){
             startActivity(new Intent(MainActivity.this, HomeActivity.class));
             finish();
+        }
+    }
+
+    private void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel1 = new NotificationChannel(
+                    CHANNEL_1_ID,
+                    "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel1.setDescription("This is Channel 1");
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
         }
     }
 }
