@@ -2,6 +2,8 @@ package com.example.uts_pbp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.Preferences.UserPreferences;
 import com.example.uts_pbp.fragments.FragmentAboutUs;
 import com.example.uts_pbp.fragments.FragmentJadwal;
@@ -58,7 +61,8 @@ public class FragmentActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_home) {
-//            finishAndRemoveTask();
+            HomeActivity.homeActivity.finish();
+            finishAndRemoveTask();
             startActivity(new Intent(FragmentActivity.this, HomeActivity.class));
         } else if (item.getItemId() == R.id.menu_produk) {
             menu = getString(R.string.menu_produk);
@@ -120,6 +124,34 @@ public class FragmentActivity extends AppCompatActivity {
         if(!userPreferences.checkLogin()){
             startActivity(new Intent(FragmentActivity.this, MainActivity.class));
             finish();
+        }
+    }
+
+    //Jika ada perubahan tema, updateView di HomeActivity bisa ketrigger karena terletak di onCreate
+    @Override
+    public void onBackPressed() {
+        HomeActivity.homeActivity.finish();
+        startActivity(new Intent(FragmentActivity.this, HomeActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void updateMode(PreferencesSettings settings) {
+        if(settings.getCustomMode().equals(PreferencesSettings.LANDSCAPE_MODE)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 }

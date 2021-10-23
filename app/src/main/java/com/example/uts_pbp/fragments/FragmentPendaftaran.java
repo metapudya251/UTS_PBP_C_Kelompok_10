@@ -150,7 +150,7 @@ public class FragmentPendaftaran extends Fragment {
     public View.OnClickListener btnBack = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            getActivity().finishAndRemoveTask();
+            getActivity().finish();
         }
     };
 
@@ -178,7 +178,7 @@ public class FragmentPendaftaran extends Fragment {
             addJadwal();
 
             //kembali ke FragmentActivity
-            getActivity().finishAndRemoveTask();
+            getActivity().finish();
         }
     };
 

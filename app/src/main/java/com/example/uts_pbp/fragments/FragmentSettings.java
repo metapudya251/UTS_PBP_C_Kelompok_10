@@ -2,8 +2,11 @@ package com.example.uts_pbp.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +16,13 @@ import android.widget.CompoundButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.example.uts_pbp.FragmentActivity;
 import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.R;
+import com.example.uts_pbp.databinding.FragmentSettingsBinding;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -26,6 +32,8 @@ public class FragmentSettings extends Fragment {
     private SwitchMaterial switchMaterial;
     private View parentView;
     private PreferencesSettings settings;
+
+    private FragmentSettingsBinding binding;
 
     public FragmentSettings() {
         // Required empty public constructor
@@ -37,29 +45,35 @@ public class FragmentSettings extends Fragment {
 
         settings = (PreferencesSettings) getActivity().getApplication();
 
-        switchMaterial = view.findViewById(R.id.switchBtn);
-        tvScreen = view.findViewById(R.id.tv_screen);
-        parentView = view.findViewById(R.id.parentView);
-        tvDisplay = view.findViewById(R.id.tv_display);
-        tvNight = view.findViewById(R.id.tv_night);
-        tvOrientation = view.findViewById(R.id.tv_orientation);
+        switchMaterial = binding.switchBtn;
+        tvScreen = binding.tvScreen;
+        parentView = binding.parentView;
+        tvDisplay = binding.tvDisplay;
+        tvNight = binding.tvNight;
+        tvOrientation = binding.tvOrientation;
         tvOrientation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                //Opsi Orientation dan Perubahannnya
+                showAlertDialog();
             }
         });
 
         //cek update tema
         loadSharedPreferences();
         initSwitchListener();
+
+        //cek update mode
+        //((FragmentActivity)getActivity()).updateMode(settings);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_settings, container, false);
+        View view = binding.getRoot();
+        return view;
     }
 
     private void loadSharedPreferences()
@@ -112,5 +126,37 @@ public class FragmentSettings extends Fragment {
             parentView.setBackgroundColor(white);
             switchMaterial.setChecked(false);
         }
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle("Orientation");
+        String[] items = {"Portrait", "Landscape"};
+        int checkedItem;
+
+        if (getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            checkedItem = 1;
+        } else {
+            checkedItem = 0;
+        }
+
+        alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        settings.setCustomMode(PreferencesSettings.PORTRAIT_MODE);
+                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                        break;
+                    case 1:
+                        settings.setCustomMode(PreferencesSettings.LANDSCAPE_MODE);
+                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                        break;
+                }
+            }
+        });
+        AlertDialog alert = alertDialog.create();
+        alert.setCanceledOnTouchOutside(true);
+        alert.show();
     }
 }

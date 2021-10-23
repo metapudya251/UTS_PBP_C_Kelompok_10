@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.R;
+import com.example.uts_pbp.databinding.FragmentAboutUsBinding;
 import com.google.android.material.textview.MaterialTextView;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
@@ -32,6 +34,8 @@ public class FragmentAboutUs extends Fragment implements OnMapReadyCallback {
     private View parentView;
     private PreferencesSettings settings;
 
+    private FragmentAboutUsBinding binding;
+
     public FragmentAboutUs() {
         // Required empty public constructor
     }
@@ -41,7 +45,9 @@ public class FragmentAboutUs extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Mapbox.getInstance(getActivity(), getString(R.string.mapbox_access_token));
-        return inflater.inflate(R.layout.fragment_about_us, container, false);
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_about_us, container, false);
+        View view = binding.getRoot();
+        return view;
     }
 
     @Override
@@ -50,11 +56,11 @@ public class FragmentAboutUs extends Fragment implements OnMapReadyCallback {
 
         settings = (PreferencesSettings) getActivity().getApplication();
 
-        tvAbout = view.findViewById(R.id.tv_about);
-        tvAbout2 = view.findViewById(R.id.tv_about2);
-        tvFind = view.findViewById(R.id.tv_find);
-        tvFind2 = view.findViewById(R.id.tv_find2);
-        parentView = view.findViewById(R.id.viewAbout);
+        tvAbout = binding.tvAbout;
+        tvAbout2 = binding.tvAbout2;
+        tvFind = binding.tvFind;
+        tvFind2 = binding.tvFind2;
+        parentView = binding.viewAbout;
 
         //cek update tema
         loadSharedPreferences();

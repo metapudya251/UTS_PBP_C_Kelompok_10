@@ -12,9 +12,11 @@
         android:theme="@style/Theme.UTS_PBP">
         <activity
             android:name=".FragmentActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:exported="true" />
         <activity
             android:name=".HomeActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

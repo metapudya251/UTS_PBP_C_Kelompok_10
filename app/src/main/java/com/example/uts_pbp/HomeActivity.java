@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
 public class HomeActivity extends AppCompatActivity {
+    public static Activity homeActivity;
 
     private MaterialTextView tvWelcome, tvName, tvProduk, tvRegis, tvjadwal, tvAbout,tvLogout,tvSet;
     private User profil;
@@ -34,6 +36,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        homeActivity = this;
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         binding.setActivity(this);
 
@@ -69,6 +74,10 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
         String theme = sharedPreferences.getString(PreferencesSettings.CUSTOM_THEME, PreferencesSettings.LIGHT_THEME);
         settings.setCustomTheme(theme);
+
+        String mode = sharedPreferences.getString(PreferencesSettings.CUSTOM_MODE, PreferencesSettings.PORTRAIT_MODE);
+        settings.setCustomMode(mode);
+
         updateView();
     }
     private void updateView() {
@@ -171,4 +180,8 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    @Override
+    public void onBackPressed() {
+        finishAndRemoveTask();
+    }
 }

@@ -1,103 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:mapbox="http://schemas.android.com/tools"
-    android:id="@+id/viewAbout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:mapbox="http://schemas.android.com/tools">
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
+    <RelativeLayout
+        android:id="@+id/viewAbout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_about"
-            style="@style/TextAppearance.MaterialComponents.Headline4"
-            android:layout_marginTop="50dp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="@string/about_us"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_about"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/about_us"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
 
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_about2"
-            style="@style/TextAppearance.MaterialComponents.Headline4"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="8pt"
-            android:textAlignment="center"
-            android:text="@string/about"
-            android:textColor="@color/black" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_about2"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="8pt"
+                android:textAlignment="center"
+                android:text="@string/about"
+                android:textColor="@color/black" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_find"
-            style="@style/TextAppearance.MaterialComponents.Headline4"
-            android:layout_marginTop="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="@string/find_us"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_find"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/find_us"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_find2"
-            style="@style/TextAppearance.MaterialComponents.Headline4"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="8pt"
-            android:textAlignment="center"
-            android:text="@string/find"
-            android:textColor="@color/black" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_find2"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="8pt"
+                android:textAlignment="center"
+                android:text="@string/find"
+                android:textColor="@color/black" />
 
-        <com.mapbox.mapboxsdk.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            mapbox:mapbox_cameraTargetLat="40.73581"
-            mapbox:mapbox_cameraTargetLng="-73.99155"
-            mapbox:mapbox_cameraZoom="11" />
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                mapbox:mapbox_cameraTargetLat="40.73581"
+                mapbox:mapbox_cameraTargetLng="-73.99155"
+                mapbox:mapbox_cameraZoom="11" />
 
-    </LinearLayout>
-
-
-
-</RelativeLayout>
-
-
-    <!--    <RelativeLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent">-->
-
-    <!--    </RelativeLayout>-->
-
-
-
-
-    <!--<TextView-->
-    <!--style="@style/TextAppearance.MaterialComponents.Headline4"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="ABOUT US"-->
-    <!--android:textColor="@color/black"-->
-    <!--android:textStyle="bold" >-->
-    <!--<TextView-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:text="@string/about"-->
-    <!--    >-->
-
-    <!--</TextView>-->
-    <!--</TextView>-->
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

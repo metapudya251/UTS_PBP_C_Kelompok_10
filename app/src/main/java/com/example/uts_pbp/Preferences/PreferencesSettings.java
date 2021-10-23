@@ -11,7 +11,12 @@ public class PreferencesSettings extends Application {
     public static final String LIGHT_THEME = "lightTheme";
     public static final String DARK_THEME = "darkTheme";
 
+    public static final String CUSTOM_MODE = "customMode";
+    public static final String PORTRAIT_MODE = "customMode";
+    public static final String LANDSCAPE_MODE = "customMode";
+
     private String customTheme;
+    private String customMode;
 
     public String getCustomTheme()
     {
@@ -21,6 +26,14 @@ public class PreferencesSettings extends Application {
     public void setCustomTheme(String customTheme)
     {
         this.customTheme = customTheme;
+    }
+
+    public String getCustomMode() {
+        return customMode;
+    }
+
+    public void setCustomMode(String customMode) {
+        this.customMode = customMode;
     }
 }
 
