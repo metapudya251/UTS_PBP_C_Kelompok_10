@@ -22,6 +22,8 @@ import com.example.uts_pbp.entity.Produk;
 import com.example.uts_pbp.R;
 import com.example.uts_pbp.databinding.RvItemProdukBinding;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class RVProdukAdapter extends RecyclerView.Adapter<RVProdukAdapter.ViewHolder>{
@@ -41,34 +43,34 @@ public class RVProdukAdapter extends RecyclerView.Adapter<RVProdukAdapter.ViewHo
             binding.setPrdk(item);
             binding.executePendingBindings();
         }
-        public void onClick(View view) {
+
+        public void onClick (View view){
             onNoteClick(getAdapterPosition());
         }
-
     }
 
+    //pemanggil tampilan detail produk
     public void onNoteClick (int position){
         final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.allert_produk);
-//        String.valueOf(double d);
+        dialog.setContentView(R.layout.alert_produk);
 
-        ImageView image = dialog.findViewById(R.id.image);
-        Produk.loadImage(image,listProduk.get(position).getImgUrl());
-        TextView text1=dialog.findViewById(R.id.tv_detail_nama);
+        TextView text1 = dialog.findViewById(R.id.tv_detail_nama);
         text1.setText(listProduk.get(position).getNama());
-        TextView text2=dialog.findViewById(R.id.tv_detail_harga);
-//        text2.setText(listProduk.get(position).getHarga());
-        TextView text3=dialog.findViewById(R.id.tv_detail_Deskripsi);
+        TextView text2 = dialog.findViewById(R.id.tv_detail_harga);
+        text2.setText(String.valueOf(BigDecimal.valueOf(listProduk.get(position).getHarga()).setScale(2, RoundingMode.HALF_UP)));
+        TextView text3 = dialog.findViewById(R.id.tv_detail_deskripsi);
         text3.setText(listProduk.get(position).getDeskripsi());
+        ImageView image = dialog.findViewById(R.id.image_detail_produk);
+        Produk.loadImage(image, listProduk.get(position).getImgUrl());
 
-
-        TextView text4= dialog.findViewById(R.id.button_detail_tutup);
+        TextView text4 = dialog.findViewById(R.id.button_detail_tutup);
         text4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
         });
+
         dialog.show();
     }
 

@@ -123,11 +123,10 @@ public class FragmentAboutUs extends Fragment implements OnMapReadyCallback {
         mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
-                Double latitude=51.50550,longitude=-0.07520;
-
+                Double latitude=-7.779299528633786,longitude=110.41577036452533;
                 CameraPosition position = new CameraPosition.Builder()
                         .target(new LatLng(latitude, longitude))
-                        .zoom(10)
+                        .zoom(14)
                         .tilt(20)
                         .build();
                 mapboxMap.setCameraPosition(position);

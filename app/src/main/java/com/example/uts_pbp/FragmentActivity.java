@@ -131,8 +131,8 @@ public class FragmentActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         HomeActivity.homeActivity.finish();
+        finishAndRemoveTask();
         startActivity(new Intent(FragmentActivity.this, HomeActivity.class));
-        finish();
     }
 
     @Override

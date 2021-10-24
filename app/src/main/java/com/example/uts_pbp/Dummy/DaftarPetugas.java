@@ -9,6 +9,6 @@ public class DaftarPetugas {
     public DaftarPetugas () {
         listPetugas = new ArrayList();
         listPetugas.add(new Petugas("Bapak Jago","https://cdn.discordapp.com/attachments/615164305817468958/890964403485278258/joseph-gonzalez-iFgRcqHznqg-unsplash.jpg"));
-        listPetugas.add(new Petugas("Ibu Mahir", "https://cdn.discordapp.com/attachments/615164305817468958/890964403485278258/joseph-gonzalez-iFgRcqHznqg-unsplash.jpg"));
+        listPetugas.add(new Petugas("Ibu Mahir", "https://cdn.discordapp.com/attachments/615164305817468958/901761110435332156/photo-1541101767792-f9b2b1c4f127.jpg"));
     }
 }

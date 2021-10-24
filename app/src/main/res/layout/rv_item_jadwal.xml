@@ -15,54 +15,54 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="#B5B5B5"
-        >
-
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="20dp">
-
-            <ImageView
-                android:id="@+id/image_tukangCukur"
-                android:layout_width="300px"
-                android:layout_height="300px"
-                app:loadImg="@{jdwl.imgUrl}"/>
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#B5B5B5"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp">
+                android:orientation="horizontal"
+                android:padding="20dp">
 
-                <TextView
-                    android:id="@+id/tv_tanggal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{jdwl.tanggal}"
-                    style="@style/TextAppearance.MaterialComponents.Headline4"/>
+                <ImageView
+                    android:id="@+id/image_tukangCukur"
+                    android:layout_width="250px"
+                    android:layout_height="250px"
+                    app:loadImg="@{jdwl.imgUrl}"/>
 
-                <TextView
-                    android:id="@+id/tv_pelayanan"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{jdwl.pelayanan}" />
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp">
 
-                <TextView
-                    android:id="@+id/tv_petugas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{jdwl.petugas}"
-                    style="@style/TextAppearance.MaterialComponents.Headline6"/>
+                    <TextView
+                        android:id="@+id/tv_tanggal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{jdwl.tanggal}"
+                        style="@style/TextAppearance.MaterialComponents.Headline5"/>
+
+                    <TextView
+                        android:id="@+id/tv_pelayanan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{jdwl.pelayanan}" />
+
+                    <TextView
+                        android:id="@+id/tv_petugas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{jdwl.petugas}"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"/>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>

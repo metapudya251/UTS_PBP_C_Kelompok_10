@@ -72,7 +72,7 @@ public class FragmentPendaftaran extends Fragment {
         binding.setDftr(jdwl);
         binding.setActivity(this);
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        dateFormatter = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
 
         parentView = view.findViewById(R.id.viewPendaftaran);
 
