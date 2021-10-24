@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -65,6 +66,8 @@ public class HomeActivity extends AppCompatActivity {
 
         //cek update tema
         loadSharedPreferences();
+        //cek update mode
+        loadSharedPreferencesMode();
 
     }
 
@@ -107,6 +110,20 @@ public class HomeActivity extends AppCompatActivity {
             tvRegis.setTextColor(black);
             tvSet.setTextColor(black);
             parentView.setBackgroundColor(white);
+        }
+    }
+    private void loadSharedPreferencesMode()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String mode = sharedPreferences.getString(PreferencesSettings.CUSTOM_MODE, PreferencesSettings.PORTRAIT_MODE);
+        settings.setCustomMode(mode);
+        updateMode();
+    }
+    private void updateMode(){
+        if (settings.getCustomMode().equals(PreferencesSettings.LANDSCAPE_MODE)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }else{
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 

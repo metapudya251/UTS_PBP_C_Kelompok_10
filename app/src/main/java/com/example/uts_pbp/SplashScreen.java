@@ -1,8 +1,11 @@
 package com.example.uts_pbp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -10,13 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.Preferences.UserPreferences;
 
 public class SplashScreen extends AppCompatActivity {
 
     ImageView imgLogo;
     TextView textView;
+    private View parentView;
     private UserPreferences userPreferences;
 
     @Override
@@ -29,6 +35,7 @@ public class SplashScreen extends AppCompatActivity {
 
         userPreferences = new UserPreferences(SplashScreen.this);
 
+        parentView = findViewById(R.id.splash_screen);
         imgLogo = (ImageView) findViewById(R.id.splash_logo);
         textView = (TextView) findViewById(R.id.textView);
 

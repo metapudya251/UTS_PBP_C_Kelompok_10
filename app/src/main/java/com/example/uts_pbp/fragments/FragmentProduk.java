@@ -3,6 +3,7 @@ package com.example.uts_pbp.fragments;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,8 @@ public class FragmentProduk extends Fragment {
 
         //cek update tema
         loadSharedPreferences();
+        //cek update mode
+        loadSharedPreferencesMode();
 
         binding.rvProduk.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
@@ -82,6 +85,20 @@ public class FragmentProduk extends Fragment {
         else
         {
             parentView.setBackgroundColor(white);
+        }
+    }
+    private void loadSharedPreferencesMode()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String mode = sharedPreferences.getString(PreferencesSettings.CUSTOM_MODE, PreferencesSettings.PORTRAIT_MODE);
+        settings.setCustomMode(mode);
+        updateMode();
+    }
+    private void updateMode(){
+        if (settings.getCustomMode().equals(PreferencesSettings.LANDSCAPE_MODE)){
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }else{
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 }

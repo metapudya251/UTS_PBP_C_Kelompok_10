@@ -64,7 +64,7 @@ public class FragmentSettings extends Fragment {
         initSwitchListener();
 
         //cek update mode
-        //((FragmentActivity)getActivity()).updateMode(settings);
+        loadSharedPreferencesMode();
     }
 
     @Override
@@ -127,6 +127,20 @@ public class FragmentSettings extends Fragment {
             switchMaterial.setChecked(false);
         }
     }
+    private void loadSharedPreferencesMode()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String mode = sharedPreferences.getString(PreferencesSettings.CUSTOM_MODE, PreferencesSettings.PORTRAIT_MODE);
+        settings.setCustomMode(mode);
+        updateMode();
+    }
+    private void updateMode(){
+        if (settings.getCustomMode().equals(PreferencesSettings.LANDSCAPE_MODE)){
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }else{
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
 
     private void showAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
@@ -146,13 +160,16 @@ public class FragmentSettings extends Fragment {
                 switch (which) {
                     case 0:
                         settings.setCustomMode(PreferencesSettings.PORTRAIT_MODE);
-                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                         break;
                     case 1:
                         settings.setCustomMode(PreferencesSettings.LANDSCAPE_MODE);
-                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                         break;
                 }
+
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE).edit();
+                editor.putString(PreferencesSettings.CUSTOM_MODE, settings.getCustomMode());
+                editor.apply();
+                updateMode();
             }
         });
         AlertDialog alert = alertDialog.create();

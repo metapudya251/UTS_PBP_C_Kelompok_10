@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -77,6 +78,8 @@ public class FragmentPendaftaran extends Fragment {
 
         //cek update tema
         loadSharedPreferences();
+        //cek update mode
+        loadSharedPreferencesMode();
 
         //ku enggak paham gimana cara kerjanya tapi ini bekerja -- WKWKWKK gpp seadanya dulu
         //dropdown menu
@@ -243,6 +246,20 @@ public class FragmentPendaftaran extends Fragment {
         else
         {
             parentView.setBackgroundColor(white);
+        }
+    }
+    private void loadSharedPreferencesMode()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(PreferencesSettings.PREFERENCES, MODE_PRIVATE);
+        String mode = sharedPreferences.getString(PreferencesSettings.CUSTOM_MODE, PreferencesSettings.PORTRAIT_MODE);
+        settings.setCustomMode(mode);
+        updateMode();
+    }
+    private void updateMode(){
+        if (settings.getCustomMode().equals(PreferencesSettings.LANDSCAPE_MODE)){
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }else{
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 }

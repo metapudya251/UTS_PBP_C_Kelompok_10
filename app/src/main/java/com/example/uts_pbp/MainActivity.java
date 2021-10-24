@@ -2,22 +2,26 @@ package com.example.uts_pbp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.Preferences.UserPreferences;
 import com.example.uts_pbp.databinding.ActivityMainBinding;
 import com.example.uts_pbp.user.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.messaging.FirebaseMessaging;
+//import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     public static final String CHANNEL_1_ID = "channel1";
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout inputUsername;
     private TextInputLayout inputPassword;
     private ConstraintLayout mainLayout;
+    private View parentView;
     private UserPreferences userPreferences;
     private User profil;
 
@@ -34,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("sample_notification");
-        createNotificationChannel();
+//        FirebaseMessaging.getInstance().subscribeToTopic("sample_notification");
+//        createNotificationChannel();
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setActivity(this);
@@ -45,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         setTitle("User Login");
 
+        parentView = findViewById(R.id.mainLayout);
         inputUsername = findViewById(R.id.inputLayoutUsername);
         inputPassword = findViewById(R.id.inputLayoutPassword);
 
