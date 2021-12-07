@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.Preferences.UserPreferences;
@@ -35,11 +36,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentJadwal extends Fragment {
+public class FragmentJadwal extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private FragmentJadwalBinding binding;
     private RVJadwalAdapter jadwalAdapter;
 
     private View parentView;
+    private SwipeRefreshLayout swiperefresh;
     private PreferencesSettings settings;
 
     private ApiInterface apiService;
@@ -66,7 +68,12 @@ public class FragmentJadwal extends Fragment {
 
         settings = (PreferencesSettings) getActivity().getApplication();
 
+        jadwalAdapter = new RVJadwalAdapter(listJadwal,getActivity());
+
         parentView = binding.viewJadwal;
+        swiperefresh = binding.swiperefresh;
+        swiperefresh.setOnRefreshListener(this);
+
         //cek update Tema
         loadSharedPreferences();
         //cek update mode
@@ -76,12 +83,17 @@ public class FragmentJadwal extends Fragment {
         binding.rvJadwal.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
         // Set Adapter dari recycler view
-        getAllJadwal();
+//        getAllJadwal();
+
+        //panggil fungsi swipe
+        onLoadingSwipe ();
     }
 
     //get list jadwal from API
     private void getAllJadwal() {
         Call<JadwalResponse> call = apiService.getAllJadwal();
+
+        swiperefresh.setRefreshing(true);
 
         call.enqueue(new Callback<JadwalResponse>() {
             @Override
@@ -98,12 +110,15 @@ public class FragmentJadwal extends Fragment {
                     jadwalAdapter = new RVJadwalAdapter(listJadwal,getActivity());
                     //jadwalAdapter.setJadwalList(response.body().getJadwalList());
                     binding.setJadwaladapter(jadwalAdapter);
+                    swiperefresh.setRefreshing(false);
                 } else {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        swiperefresh.setRefreshing(false);
                         Toast.makeText(getContext(),
                                 jObjError.getString("message"), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
+                        swiperefresh.setRefreshing(false);
                         Toast.makeText(getContext(),
                                 e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -152,5 +167,21 @@ public class FragmentJadwal extends Fragment {
         }else{
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        getAllJadwal();
+    }
+
+    private void onLoadingSwipe (){
+        swiperefresh.post(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        getAllJadwal();
+                    }
+                }
+        );
     }
 }

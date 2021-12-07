@@ -15,12 +15,19 @@
         android:orientation="horizontal"
         android:gravity="center">
         <!-- TODO: Update blank fragment layout -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_produk"
-            android:adapter="@{produkadapter}"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/rv_item_produk"/>
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_produk"
+                android:adapter="@{produkadapter}"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/rv_item_produk"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 
 </layout>

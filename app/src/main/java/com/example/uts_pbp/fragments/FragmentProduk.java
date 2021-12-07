@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.models.Produk;
@@ -34,10 +35,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentProduk extends Fragment {
+public class FragmentProduk extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private ArrayList<Produk> listProduk;
     private FragmentProdukBinding binding;
     private View parentView;
+    private SwipeRefreshLayout swiperefresh;
     private PreferencesSettings settings;
     private ApiInterface apiService;
     private RVProdukAdapter myRecyclerViewAdapter;
@@ -61,11 +63,13 @@ public class FragmentProduk extends Fragment {
 
         apiService = ApiClient.getClient().create(ApiInterface.class);
 
-        getAllProduk();
+//        getAllProduk();
 
         settings = (PreferencesSettings) getActivity().getApplication();
 
         parentView = binding.viewProduk;
+        swiperefresh = binding.swiperefresh;
+        swiperefresh.setOnRefreshListener(this);
 
         //cek update tema
         loadSharedPreferences();
@@ -73,11 +77,16 @@ public class FragmentProduk extends Fragment {
         loadSharedPreferencesMode();
 
         binding.rvProduk.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        //panggil fungsi swipe
+        onLoadingSwipe ();
     }
 
     //get list produk from API
     private void getAllProduk() {
         Call<ProdukResponse> call = apiService.getAllProduk();
+
+        swiperefresh.setRefreshing(true);
 
         call.enqueue(new Callback<ProdukResponse>() {
             @Override
@@ -87,12 +96,16 @@ public class FragmentProduk extends Fragment {
                     myRecyclerViewAdapter = new RVProdukAdapter(listProduk,getActivity());
                     myRecyclerViewAdapter.setProdukList(response.body().getProdukList());
                     binding.setProdukadapter(myRecyclerViewAdapter);
+                    swiperefresh.setRefreshing(false);
+
                 } else {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        swiperefresh.setRefreshing(false);
                         Toast.makeText(getContext(),
                                 jObjError.getString("message"), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
+                        swiperefresh.setRefreshing(false);
                         Toast.makeText(getContext(),
                                 e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -141,5 +154,21 @@ public class FragmentProduk extends Fragment {
         }else{
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        getAllProduk();
+    }
+
+    private void onLoadingSwipe (){
+        swiperefresh.post(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        getAllProduk();
+                    }
+                }
+        );
     }
 }
