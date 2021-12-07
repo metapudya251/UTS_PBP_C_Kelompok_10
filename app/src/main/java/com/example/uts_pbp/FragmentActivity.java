@@ -28,9 +28,13 @@ public class FragmentActivity extends AppCompatActivity {
     private String menu;
     private UserPreferences userPreferences;
 
+    public static FragmentActivity fragmentActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        fragmentActivity = this;
 
         userPreferences = new UserPreferences(FragmentActivity.this);
 

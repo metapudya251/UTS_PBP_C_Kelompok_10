@@ -1,12 +1,27 @@
 package com.example.uts_pbp.models;
 
 public class Pengguna {
+    private int id;
     private String name, email, password;
+    //penamaan kacau, ini untuk menyimpan String value base64 image user. Hati" dalam pembacaan kode!
+    private String imgUrl;
 
-    public Pengguna(String name, String email, String password) {
+    public Pengguna () {}
+
+    public Pengguna(int id, String name, String email, String password, String imgUrl) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.imgUrl = imgUrl;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -31,5 +46,13 @@ public class Pengguna {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

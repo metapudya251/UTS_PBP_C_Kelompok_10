@@ -2,6 +2,7 @@ package com.example.uts_pbp.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.example.uts_pbp.FragmentUserEditActivity;
 import com.example.uts_pbp.Preferences.PreferencesSettings;
 import com.example.uts_pbp.Preferences.UserPreferences;
 import com.example.uts_pbp.R;
@@ -57,11 +59,11 @@ public class FragmentUser extends Fragment {
         binding.setUser(profil);
         binding.setActivity(this);
 
-        tvUser2 = view.findViewById(R.id.tv_user2);
-        tvPass2 = view.findViewById(R.id.tv_pass2);
-        tvUser = view.findViewById(R.id.tv_user);
-        tvPass = view.findViewById(R.id.tv_pass);
-        parentView = view.findViewById(R.id.viewUser);
+        tvUser2 = binding.tvUser2;
+        tvPass2 = binding.tvPass2;
+        tvUser = binding.tvUser;
+        tvPass = binding.tvPass;
+        parentView = binding.viewUser;
 
         //cek update tema
         loadSharedPreferences();
@@ -69,6 +71,13 @@ public class FragmentUser extends Fragment {
         //cek update mode
         loadSharedPreferencesMode();
     }
+
+    public View.OnClickListener btnEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startActivity(new Intent(getContext(), FragmentUserEditActivity.class));
+        }
+    };
 
     private void loadSharedPreferences()
     {
