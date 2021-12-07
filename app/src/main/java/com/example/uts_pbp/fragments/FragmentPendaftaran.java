@@ -5,13 +5,11 @@ import static android.content.Context.MODE_PRIVATE;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -21,21 +19,29 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.example.uts_pbp.Dummy.DaftarPetugas;
-import com.example.uts_pbp.Dummy.DaftarProduk;
-import com.example.uts_pbp.FragmentActivity;
 import com.example.uts_pbp.Preferences.PreferencesSettings;
+import com.example.uts_pbp.Preferences.UserPreferences;
 import com.example.uts_pbp.R;
 import com.example.uts_pbp.databinding.FragmentPendaftaranBinding;
-import com.example.uts_pbp.entity.Jadwal;
-import com.example.uts_pbp.entity.Petugas;
-import com.example.uts_pbp.entity.Produk;
-import com.example.uts_pbp.room.database.DatabaseJadwal;
+import com.example.uts_pbp.models.Jadwal;
+import com.example.uts_pbp.models.JadwalResponse;
+import com.example.uts_pbp.models.Petugas;
+import com.example.uts_pbp.models.PetugasResponse;
+import com.example.uts_pbp.models.Produk;
+import com.example.uts_pbp.models.ProdukResponse;
+import com.example.uts_pbp.retrofit.api.ApiClient;
+import com.example.uts_pbp.retrofit.api.ApiInterface;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FragmentPendaftaran extends Fragment {
     //DEKLARASI OBJEK DAN VARIABEL
@@ -47,6 +53,9 @@ public class FragmentPendaftaran extends Fragment {
 
     private PreferencesSettings settings;
     private View parentView;
+
+    private ApiInterface apiServiceProduk, apiServicePetugas, apiServiceJadwal;
+    private ArrayList<Petugas> listPetugas;
 
     public FragmentPendaftaran() {
         // Required empty public constructor
@@ -65,6 +74,10 @@ public class FragmentPendaftaran extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        apiServiceProduk = ApiClient.getClient().create(ApiInterface.class);
+        apiServicePetugas = ApiClient.getClient().create(ApiInterface.class);
+        apiServiceJadwal = ApiClient.getClient().create(ApiInterface.class);
+
         settings = (PreferencesSettings) getActivity().getApplication();
 
         //INISIALISASI OBJEK DAN VARIABEL
@@ -72,9 +85,14 @@ public class FragmentPendaftaran extends Fragment {
         binding.setDftr(jdwl);
         binding.setActivity(this);
 
+        UserPreferences userPreferences = new UserPreferences(getContext());
+
+        jdwl.setNama(userPreferences.getUserLogin().getUsername());
+        binding.etNama.setEnabled(false);
+
         dateFormatter = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
 
-        parentView = view.findViewById(R.id.viewPendaftaran);
+        parentView = binding.viewPendaftaran;
 
         //cek update tema
         loadSharedPreferences();
@@ -84,31 +102,10 @@ public class FragmentPendaftaran extends Fragment {
         //ku enggak paham gimana cara kerjanya tapi ini bekerja -- WKWKWKK gpp seadanya dulu
         //dropdown menu
         //Produk
-        int i;
-        Produk produk;
-        ArrayList<Produk> listProduk = new DaftarProduk().listProduk;
-        String [] PRODUK = new String[listProduk.size()];
-        for (i=0;i<listProduk.size();i++) {
-            produk = listProduk.get(i);
-            PRODUK[i] = produk.getNama();
-        }
-
-        ArrayAdapter<String> adapter1 = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, PRODUK);
-        binding.etProduk.setAdapter(adapter1);
+        getAllProdukName();
 
         //Pencukur
-        Petugas petugas;
-        ArrayList<Petugas> listPetugas = new DaftarPetugas().listPetugas;
-        String [] PETUGAS = new String[listPetugas.size()];
-        for (i=0;i<listPetugas.size();i++) {
-            petugas = listPetugas.get(i);
-            PETUGAS[i] = petugas.getNama();
-        }
-
-        ArrayAdapter<String> adapter2 = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_dropdown_item_1line, PETUGAS);
-        binding.etNamaPencukur.setAdapter(adapter2);
+        getAllPetugasName();
     }
 
     public View.OnClickListener btnProduk = new View.OnClickListener() {
@@ -166,64 +163,122 @@ public class FragmentPendaftaran extends Fragment {
             jdwl.setPelayanan(binding.etProduk.getText().toString());
             jdwl.setPetugas(binding.etNamaPencukur.getText().toString());
             //get imgUrl
-            int i;
-            Petugas petugas;
-            ArrayList<Petugas> listPetugas = new DaftarPetugas().listPetugas;
-            for (i=0;i<listPetugas.size();i++) {
-                petugas = listPetugas.get(i);
-                if (jdwl.getPetugas().equals(petugas.getNama())) {
-                    jdwl.setImgUrl(petugas.getImgUrl());
+            for (int i=0;i<listPetugas.size();i++) {
+                if (jdwl.getPetugas().equals(listPetugas.get(i).getNama())) {
+                    jdwl.setImgUrl(listPetugas.get(i).getImgUrl());
                     break;
                 }
             }
 
             //todos
             addJadwal();
-
-            //kembali ke FragmentActivity
-            getActivity().finish();
         }
     };
 
     private void addJadwal(){
-        final String nama = jdwl.getNama();
-        final String telp = jdwl.getTelp();
-        final String tanggal = jdwl.getTanggal();
-        final String pelayanan = jdwl.getPelayanan();
-        final String petugas = jdwl.getPetugas();
-        final String imgUrl = jdwl.getImgUrl();
+        Call<JadwalResponse> call = apiServiceJadwal.createJadwal(jdwl);
 
-        class AddJadwal extends AsyncTask<Void, Void, Void> {
-
+        call.enqueue(new Callback<JadwalResponse>() {
             @Override
-            protected Void doInBackground(Void... voids) {
-                Jadwal jadwal = new Jadwal();
-                jadwal.setNama(nama);
-                jadwal.setTelp(telp);
-                jadwal.setTanggal(tanggal);
-                jadwal.setPelayanan(pelayanan);
-                jadwal.setPetugas(petugas);
-                jadwal.setImgUrl(imgUrl);
+            public void onResponse(Call<JadwalResponse> call, Response<JadwalResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                DatabaseJadwal.getInstance(getActivity().getApplicationContext())
-                        .getDatabase()
-                        .jadwalDao()
-                        .insertJadwal(jadwal);
-
-                return null;
+                    //kembali ke FragmentActivity
+                    getActivity().finish();
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        Toast.makeText(getContext(),
+                                jObjError.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(),
+                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
 
             @Override
-            protected void onPostExecute(Void unused) {
-                super.onPostExecute(unused);
-                Toast.makeText(getActivity(), "Berhasil menambahkan data", Toast.LENGTH_SHORT).show();
-//                edt_todo.setText("");
-//                getTodos();
+            public void onFailure(Call<JadwalResponse> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //get list produk name from API
+    private void getAllProdukName() {
+        Call<ProdukResponse> call = apiServiceProduk.getAllProduk();
+
+        call.enqueue(new Callback<ProdukResponse>() {
+            @Override
+            public void onResponse(Call<ProdukResponse> call,
+                                   Response<ProdukResponse> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<Produk> listProduk = response.body().getProdukList();
+                    String [] PRODUK = new String[listProduk.size()];
+                    for (int i=0;i<listProduk.size();i++) {
+                        PRODUK[i] = listProduk.get(i).getNama();
+                    }
+
+                    ArrayAdapter<String> adapter1 = new ArrayAdapter(getActivity(),
+                            android.R.layout.simple_dropdown_item_1line, PRODUK);
+                    binding.etProduk.setAdapter(adapter1);
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        Toast.makeText(getContext(),
+                                jObjError.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(),
+                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
 
-        }
-        AddJadwal addJadwal = new AddJadwal(  );
-        addJadwal.execute();
+            @Override
+            public void onFailure(Call<ProdukResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Network error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //get list name petugas from API
+    private void getAllPetugasName() {
+        Call<PetugasResponse> call = apiServicePetugas.getAllPetugas();
+
+        call.enqueue(new Callback<PetugasResponse>() {
+            @Override
+            public void onResponse(Call<PetugasResponse> call,
+                                   Response<PetugasResponse> response) {
+                if (response.isSuccessful()) {
+                    listPetugas = response.body().getPetugasList();
+                    String [] PETUGAS = new String[listPetugas.size()];
+                    for (int i=0;i<listPetugas.size();i++) {
+                        PETUGAS[i] = listPetugas.get(i).getNama();
+                    }
+
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter(getActivity(),
+                            android.R.layout.simple_dropdown_item_1line, PETUGAS);
+                    binding.etNamaPencukur.setAdapter(adapter2);
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        Toast.makeText(getContext(),
+                                jObjError.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(),
+                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PetugasResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Network error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //LOAD PREFERENCENYA INI BUAT NGECEK TAMPILAN AWAL
@@ -240,7 +295,7 @@ public class FragmentPendaftaran extends Fragment {
 
         if(settings.getCustomTheme().equals(PreferencesSettings.DARK_THEME))
         {
-            //Maaf aku buat hitam backgroundnya aja, cardviewnya engga :)
+            //Maaf aku buat hitam backgroundnya aja, cardviewnya engga :) --- Np
             parentView.setBackgroundColor(black);
         }
         else

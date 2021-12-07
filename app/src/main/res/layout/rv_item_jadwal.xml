@@ -6,7 +6,7 @@
     <data>
         <variable
             name="jdwl"
-            type="com.example.uts_pbp.entity.Jadwal" />
+            type="com.example.uts_pbp.models.Jadwal" />
     </data>
 
     <LinearLayout

@@ -2,7 +2,6 @@ package com.example.uts_pbp.recyclerViews;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 //import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,24 +10,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.uts_pbp.Dummy.DaftarProduk;
-import com.example.uts_pbp.entity.Produk;
+import com.example.uts_pbp.models.Produk;
 import com.example.uts_pbp.R;
 import com.example.uts_pbp.databinding.RvItemProdukBinding;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RVProdukAdapter extends RecyclerView.Adapter<RVProdukAdapter.ViewHolder>{
-    Context context;
-    ArrayList<Produk> listProduk;
+    private Context context;
+    private ArrayList<Produk> listProduk;
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -78,6 +74,10 @@ public class RVProdukAdapter extends RecyclerView.Adapter<RVProdukAdapter.ViewHo
         this.listProduk = listProduk;
         this.context = context;
         notifyDataSetChanged();
+    }
+
+    public void setProdukList(ArrayList<Produk> listProduk) {
+        this.listProduk = listProduk;
     }
 
     @NonNull

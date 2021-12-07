@@ -4,11 +4,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,13 +18,22 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.uts_pbp.Preferences.PreferencesSettings;
+import com.example.uts_pbp.Preferences.UserPreferences;
 import com.example.uts_pbp.R;
 import com.example.uts_pbp.databinding.FragmentJadwalBinding;
-import com.example.uts_pbp.entity.Jadwal;
+import com.example.uts_pbp.models.Jadwal;
+import com.example.uts_pbp.models.JadwalResponse;
 import com.example.uts_pbp.recyclerViews.RVJadwalAdapter;
-import com.example.uts_pbp.room.database.DatabaseJadwal;
+import com.example.uts_pbp.retrofit.api.ApiClient;
+import com.example.uts_pbp.retrofit.api.ApiInterface;
 
-import java.util.List;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FragmentJadwal extends Fragment {
     private FragmentJadwalBinding binding;
@@ -32,6 +41,9 @@ public class FragmentJadwal extends Fragment {
 
     private View parentView;
     private PreferencesSettings settings;
+
+    private ApiInterface apiService;
+    private ArrayList<Jadwal> listJadwal;
 
     public FragmentJadwal() {
         // Required empty public constructor
@@ -50,9 +62,11 @@ public class FragmentJadwal extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+
         settings = (PreferencesSettings) getActivity().getApplication();
 
-        parentView = view.findViewById(R.id.viewJadwal);
+        parentView = binding.viewJadwal;
         //cek update Tema
         loadSharedPreferences();
         //cek update mode
@@ -62,31 +76,46 @@ public class FragmentJadwal extends Fragment {
         binding.rvJadwal.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
 
         // Set Adapter dari recycler view
-        getJadwals();
+        getAllJadwal();
     }
 
-    private void getJadwals() {
-        class GetJadwals extends AsyncTask<Void, Void, List<Jadwal>> {
+    //get list jadwal from API
+    private void getAllJadwal() {
+        Call<JadwalResponse> call = apiService.getAllJadwal();
 
+        call.enqueue(new Callback<JadwalResponse>() {
             @Override
-            protected List<Jadwal> doInBackground(Void... voids) {
-                List<Jadwal> jadwalList = DatabaseJadwal.getInstance(getActivity().getApplicationContext())
-                        .getDatabase()
-                        .jadwalDao()
-                        .getAll();
-                return jadwalList;
+            public void onResponse(Call<JadwalResponse> call,
+                                   Response<JadwalResponse> response) {
+                if (response.isSuccessful()) {
+                    listJadwal = new ArrayList<>();
+                    UserPreferences userPreferences = new UserPreferences(getContext());
+                    for (int i=0; i<response.body().getJadwalList().size();i++) {
+                        if (response.body().getJadwalList().get(i).getNama().equals(userPreferences.getUserLogin().getUsername())) {
+                            listJadwal.add(response.body().getJadwalList().get(i));
+                        }
+                    }
+                    jadwalAdapter = new RVJadwalAdapter(listJadwal,getActivity());
+                    //jadwalAdapter.setJadwalList(response.body().getJadwalList());
+                    binding.setJadwaladapter(jadwalAdapter);
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        Toast.makeText(getContext(),
+                                jObjError.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(),
+                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
 
             @Override
-            protected void onPostExecute(List<Jadwal> jadwals) {
-                super.onPostExecute(jadwals);
-                jadwalAdapter = new RVJadwalAdapter(jadwals, getActivity());
-                binding.setJadwaladapter(jadwalAdapter);
+            public void onFailure(Call<JadwalResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Network error",
+                        Toast.LENGTH_SHORT).show();
             }
-        }
-
-        GetJadwals getJadwals = new GetJadwals();
-        getJadwals.execute();
+        });
     }
 
     //LOAD PREFERENCENYA INI BUAT NGECEK TAMPILAN AWAL

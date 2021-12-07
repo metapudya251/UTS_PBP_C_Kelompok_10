@@ -6,7 +6,7 @@
     <data>
         <variable
             name="prdk"
-            type="com.example.uts_pbp.entity.Produk" />
+            type="com.example.uts_pbp.models.Produk" />
     </data>
 
     <LinearLayout

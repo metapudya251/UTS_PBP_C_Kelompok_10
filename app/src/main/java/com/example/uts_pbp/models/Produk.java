@@ -1,4 +1,4 @@
-package com.example.uts_pbp.entity;
+package com.example.uts_pbp.models;
 
 import android.widget.ImageView;
 

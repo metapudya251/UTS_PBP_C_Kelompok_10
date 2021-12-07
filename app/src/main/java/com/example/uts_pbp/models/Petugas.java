@@ -1,4 +1,4 @@
-package com.example.uts_pbp.entity;
+package com.example.uts_pbp.models;
 
 public class Petugas {
     private String nama, imgUrl;

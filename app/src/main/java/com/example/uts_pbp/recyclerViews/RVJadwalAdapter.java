@@ -2,30 +2,41 @@ package com.example.uts_pbp.recyclerViews;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.uts_pbp.R;
 import com.example.uts_pbp.databinding.RvItemJadwalBinding;
-import com.example.uts_pbp.entity.Jadwal;
+import com.example.uts_pbp.models.Jadwal;
+import com.example.uts_pbp.models.JadwalResponse;
+import com.example.uts_pbp.models.Produk;
+import com.example.uts_pbp.retrofit.api.ApiClient;
+import com.example.uts_pbp.retrofit.api.ApiInterface;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RVJadwalAdapter extends RecyclerView.Adapter<RVJadwalAdapter.ViewHolder>{
-    Context context;
-    List<Jadwal> listJadwal;
+    private Context context;
+    private List<Jadwal> listJadwal;
+
+    private ApiInterface apiService;
+
+    private Dialog dialog;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private RvItemJadwalBinding binding;
@@ -47,7 +58,7 @@ public class RVJadwalAdapter extends RecyclerView.Adapter<RVJadwalAdapter.ViewHo
 
     //pemanggil tampilan detail jadwal
     public void onNoteClick (int position){
-        final Dialog dialog = new Dialog(context);
+        dialog = new Dialog(context);
         dialog.setContentView(R.layout.alert_jadwal);
 
         TextView text1 = dialog.findViewById(R.id.tv_detail_tanggal);
@@ -67,6 +78,18 @@ public class RVJadwalAdapter extends RecyclerView.Adapter<RVJadwalAdapter.ViewHo
             }
         });
 
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        TextView text5 = dialog.findViewById(R.id.button_detail_delete);
+        text5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteJadwal(listJadwal.get(position).getId());
+                listJadwal.remove(position);
+                notifyItemRemoved(position);
+            }
+        });
+
         dialog.show();
     }
 
@@ -74,6 +97,10 @@ public class RVJadwalAdapter extends RecyclerView.Adapter<RVJadwalAdapter.ViewHo
         this.listJadwal = listJadwal;
         this.context = context;
         notifyDataSetChanged();
+    }
+
+    public void setJadwalList(ArrayList<Jadwal> listJadwal) {
+        this.listJadwal = listJadwal;
     }
 
     @NonNull
@@ -95,5 +122,36 @@ public class RVJadwalAdapter extends RecyclerView.Adapter<RVJadwalAdapter.ViewHo
     @Override
     public int getItemCount() {
         return listJadwal.size();
+    }
+
+
+    public void deleteJadwal(long id) {
+        Call<JadwalResponse> call = apiService.deleteJadwal(id);
+
+        call.enqueue(new Callback<JadwalResponse>() {
+            @Override
+            public void onResponse(Call<JadwalResponse> call,
+                                   Response<JadwalResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(context,
+                            response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        Toast.makeText(context,
+                                jObjError.getString("message"),Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(context,
+                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JadwalResponse> call, Throwable t) {
+                Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

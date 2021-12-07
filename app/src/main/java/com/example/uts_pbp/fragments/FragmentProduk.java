@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,23 +16,31 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.uts_pbp.Dummy.DaftarProduk;
 import com.example.uts_pbp.Preferences.PreferencesSettings;
-import com.example.uts_pbp.entity.Produk;
+import com.example.uts_pbp.models.Produk;
 import com.example.uts_pbp.R;
+import com.example.uts_pbp.models.ProdukResponse;
 import com.example.uts_pbp.recyclerViews.RVProdukAdapter;
 import com.example.uts_pbp.databinding.FragmentProdukBinding;
+import com.example.uts_pbp.retrofit.api.ApiClient;
+import com.example.uts_pbp.retrofit.api.ApiInterface;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FragmentProduk extends Fragment {
     private ArrayList<Produk> listProduk;
     private FragmentProdukBinding binding;
     private View parentView;
     private PreferencesSettings settings;
+    private ApiInterface apiService;
+    private RVProdukAdapter myRecyclerViewAdapter;
 
     public FragmentProduk() {
         // Required empty public constructor
@@ -49,11 +58,14 @@ public class FragmentProduk extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listProduk = new DaftarProduk().listProduk;
+
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        getAllProduk();
 
         settings = (PreferencesSettings) getActivity().getApplication();
 
-        parentView = view.findViewById(R.id.viewProduk);
+        parentView = binding.viewProduk;
 
         //cek update tema
         loadSharedPreferences();
@@ -61,9 +73,38 @@ public class FragmentProduk extends Fragment {
         loadSharedPreferencesMode();
 
         binding.rvProduk.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+    }
 
-        RVProdukAdapter myRecyclerViewAdapter = new RVProdukAdapter(listProduk,getActivity());
-        binding.setProdukadapter(myRecyclerViewAdapter);
+    //get list produk from API
+    private void getAllProduk() {
+        Call<ProdukResponse> call = apiService.getAllProduk();
+
+        call.enqueue(new Callback<ProdukResponse>() {
+            @Override
+            public void onResponse(Call<ProdukResponse> call,
+                                   Response<ProdukResponse> response) {
+                if (response.isSuccessful()) {
+                    myRecyclerViewAdapter = new RVProdukAdapter(listProduk,getActivity());
+                    myRecyclerViewAdapter.setProdukList(response.body().getProdukList());
+                    binding.setProdukadapter(myRecyclerViewAdapter);
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        Toast.makeText(getContext(),
+                                jObjError.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(),
+                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProdukResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Network error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //LOAD PREFERENCENYA INI BUAT NGECEK TAMPILAN AWAL

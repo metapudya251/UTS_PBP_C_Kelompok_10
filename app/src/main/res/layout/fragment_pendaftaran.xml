@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/viewPendaftaran">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <data>
             <variable
@@ -9,10 +8,11 @@
                 type="com.example.uts_pbp.fragments.FragmentPendaftaran"/>
             <variable
                 name="dftr"
-                type="com.example.uts_pbp.entity.Jadwal" />
+                type="com.example.uts_pbp.models.Jadwal" />
         </data>
 
     <RelativeLayout
+        android:id="@+id/viewPendaftaran"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">

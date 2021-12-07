@@ -1,35 +1,24 @@
-package com.example.uts_pbp.entity;
+package com.example.uts_pbp.models;
 
 import android.widget.ImageView;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.BindingAdapter;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.uts_pbp.BR;
 
-@Entity(tableName = "jadwal")
 public class Jadwal extends BaseObservable {
-    @PrimaryKey(autoGenerate = true)
     private int id;
 
 
-    @ColumnInfo(name = "nama")
     private String nama;
-    @ColumnInfo(name = "telp")
     private String telp;
-    @ColumnInfo(name = "tanggal")
     private String tanggal;
-    @ColumnInfo(name = "pelayanan")
     private String pelayanan;
-    @ColumnInfo(name = "petugas")
     private String petugas;
-    @ColumnInfo(name = "imgUrl")
     private String imgUrl;
 
     public Jadwal () {}

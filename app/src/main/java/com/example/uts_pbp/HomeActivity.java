@@ -54,15 +54,15 @@ public class HomeActivity extends AppCompatActivity {
         //cek user login
         checkLogin();
 
-        parentView = findViewById(R.id.parentView2);
-        tvName = findViewById(R.id.tv_name);
-        tvWelcome = findViewById(R.id.tv_welcome);
-        tvAbout = findViewById(R.id.tv_about);
-        tvjadwal = findViewById(R.id.tv_jadwal);
-        tvLogout = findViewById(R.id.tv_logout);
-        tvProduk = findViewById(R.id.tv_produk);
-        tvRegis = findViewById(R.id.tv_pendaftaran);
-        tvSet = findViewById(R.id.tv_setting);
+        parentView = binding.parentView2;
+        tvName = binding.tvName;
+        tvWelcome = binding.tvWelcome;
+        tvAbout = binding.tvAbout;
+        tvjadwal = binding.tvJadwal;
+        tvLogout = binding.tvLogout;
+        tvProduk = binding.tvProduk;
+        tvRegis = binding.tvPendaftaran;
+        tvSet = binding.tvSetting;
 
         //cek update tema
         loadSharedPreferences();
