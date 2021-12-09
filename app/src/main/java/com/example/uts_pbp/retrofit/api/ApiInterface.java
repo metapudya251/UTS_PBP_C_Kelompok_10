@@ -9,7 +9,6 @@ import com.example.uts_pbp.models.Petugas;
 import com.example.uts_pbp.models.PetugasResponse;
 import com.example.uts_pbp.models.Produk;
 import com.example.uts_pbp.models.ProdukResponse;
-import com.example.uts_pbp.user.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -24,12 +23,17 @@ public interface ApiInterface {
     //login
     @Headers({"Accept: application/json"})
     @POST("login")
-    Call<AuthResponse> getLogin(@Body User user);
+    Call<AuthResponse> getLogin(@Body Pengguna pengguna);
 
     //Register
     @Headers({"Accept: application/json"})
     @POST("register")
     Call<AuthResponse> getRegister(@Body Pengguna pengguna);
+
+    //Verify
+    @Headers({"Accept: application/json"})
+    @POST("verify/{id}")
+    Call<AuthResponse> getVerify(@Path("id") long id, @Body Pengguna pengguna);
 
     //Jadwal
     @Headers({"Accept: application/json"})

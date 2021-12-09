@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="activity"
-            type="com.example.uts_pbp.MainActivity" />
+            type="com.example.uts_pbp.RegisterActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,28 +15,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="177dp"
-            android:layout_height="190dp"
-            android:layout_marginTop="96dp"
-            android:src="@drawable/logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="LOGIN"
+            android:layout_marginTop="96dp"
+            android:text="REGISTER"
             android:textColor="@color/black"
             android:textStyle="bold"
             style="@style/TextAppearance.MaterialComponents.Headline4"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -68,6 +58,24 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Email"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ic_baseline_email_24"
+                android:layout_marginBottom="5dp"
+                app:helperText="Masukan Email anda">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,21 +93,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Belum terdaftar? "/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="klik disini!"
-                    android:textColor="#6200EE"
-                    android:onClick="@{activity.register}"/>
-            </LinearLayout>
         </LinearLayout>
 
 
@@ -123,12 +116,12 @@
                 android:onClick="@{activity.btnClear}"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Login"
-                android:onClick="@{activity.btnLogin}"/>
+                android:text="Register"
+                android:onClick="@{activity.btnRegister}"/>
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

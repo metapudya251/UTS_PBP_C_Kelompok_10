@@ -268,10 +268,12 @@ public class FragmentUserEditActivity extends AppCompatActivity {
                             id = response.body().getPenggunaList().get(i).getId();
 
                             //decode user image
-                            byte[] decodedString = Base64.decode(response.body().getPenggunaList().get(i).getImgUrl(), Base64.DEFAULT);
-                            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                            if (response.body().getPenggunaList().get(i).getImgUrl() != null){
+                                byte[] decodedString = Base64.decode(response.body().getPenggunaList().get(i).getImgUrl(), Base64.DEFAULT);
+                                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                            ivGambar.setImageBitmap(decodedByte);
+                                ivGambar.setImageBitmap(decodedByte);
+                            }
                             break;
                         }
                     }

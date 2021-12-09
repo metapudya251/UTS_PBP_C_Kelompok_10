@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.uts_pbp.Preferences.UserPreferences;
@@ -38,21 +41,20 @@ public class MainActivity extends AppCompatActivity {
 
     private TextInputLayout inputUsername;
     private TextInputLayout inputPassword;
-    private ConstraintLayout mainLayout;
     private View parentView;
     private UserPreferences userPreferences;
     private User profil;
 
     private ActivityMainBinding binding;
 
-    private ApiInterface apiService;
-    private ArrayList<Pengguna> listUser;
+    private ApiInterface apiServiceLogin, apiServiceVerify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        apiService = ApiClient.getClient().create(ApiInterface.class);
+        apiServiceLogin = ApiClient.getClient().create(ApiInterface.class);
+        apiServiceVerify = ApiClient.getClient().create(ApiInterface.class);
 
         FirebaseMessaging.getInstance().subscribeToTopic("sample_notification");
         createNotificationChannel();
@@ -89,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    public View.OnClickListener register = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            finish();
+        }
+    };
+
     private boolean validateForm(){
         if(inputUsername.getEditText().getText().toString().trim().isEmpty() || inputPassword.getEditText().getText().toString().trim().isEmpty()){
             inputUsername.setError("Username must be filled with text");
@@ -119,20 +129,83 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //get list user from API
+    //get login
     private void login() {
-        User user = new User(inputUsername.getEditText().getText().toString().trim(),inputPassword.getEditText().getText().toString().trim());
+        Pengguna user = new Pengguna();
 
-        Call<AuthResponse> call = apiService.getLogin(user);
+        user.setName(inputUsername.getEditText().getText().toString().trim());
+        user.setPassword(inputPassword.getEditText().getText().toString().trim());
+
+        Call<AuthResponse> call = apiServiceLogin.getLogin(user);
 
         call.enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call,
                                    Response<AuthResponse> response) {
                 if (response.isSuccessful()) {
-                    userPreferences.setLogin(user.getUsername(),user.getPassword());
-                    Toast.makeText(MainActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
-                    checkLogin();
+                    if (response.body().getUser().getToken().equals("1")){
+                        userPreferences.setLogin(user.getName(),user.getPassword());
+                        Toast.makeText(MainActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
+                        checkLogin();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("Verify Token");
+                        builder.setMessage("Your account hasn't been verified. Please enter verify token from your email.");
+
+                        final EditText input = new EditText(MainActivity.this);
+                        builder.setView(input);
+
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String token = input.getText().toString();
+                                long id = response.body().getUser().getId();
+                                verify(token, id);
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        builder.show();
+                    }
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        Toast.makeText(MainActivity.this,
+                                jObjError.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(MainActivity.this,
+                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Network error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //verify
+    private void verify(String token, long id) {
+        Pengguna user = new Pengguna();
+
+        user.setToken(token);
+
+        Call<AuthResponse> call = apiServiceVerify.getVerify(id, user);
+
+        call.enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call,
+                                   Response<AuthResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());

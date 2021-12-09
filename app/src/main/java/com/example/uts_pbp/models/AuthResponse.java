@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class AuthResponse {
     private String message;
 
-    @SerializedName("data")
+    @SerializedName("user")
     private Pengguna user;
 
     public String getMessage() {
