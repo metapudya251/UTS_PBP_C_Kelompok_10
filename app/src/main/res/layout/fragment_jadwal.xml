@@ -9,7 +9,7 @@
             type="com.example.uts_pbp.recyclerViews.RVJadwalAdapter"/>
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/viewJadwal">
@@ -35,17 +35,19 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPdf"
-                android:layout_width="85dp"
-                android:layout_height="73dp"
-                android:text="@string/cetak_pdf">
-
-            </com.google.android.material.button.MaterialButton>
-
         </LinearLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPdf"
+            android:layout_width="85dp"
+            android:layout_height="73dp"
+            android:text="@string/cetak_pdf"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true">
+
+        </com.google.android.material.button.MaterialButton>
+
+    </RelativeLayout>
 </layout>
